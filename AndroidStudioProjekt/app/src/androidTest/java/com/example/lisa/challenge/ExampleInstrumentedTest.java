@@ -1,4 +1,4 @@
-package com.example.lisa.challange;
+package com.example.lisa.challenge;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
