@@ -77,6 +77,8 @@ public class HighJumpBarechnenThread extends AsyncTask {
             float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
             Log.d("runnable", "Du bist " + ergebniss + "mm hoschgesprungen");
             hochsprung.setStartMeasure(false);
+            hochsprung.setGemesseneHoehe(ergebniss);
+            hochsprung.ueberTrageMessergebnis();
             return ergebniss;
         }
 

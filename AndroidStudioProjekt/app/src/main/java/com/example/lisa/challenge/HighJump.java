@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class HighJump extends AppCompatActivity {
     //Gibt an, ob das Handy sich in der Hosentasche befindet und die Umgebung dunkel ist
     private Float aktuelleHoehe = 0f;
     private Float aktuellerLichwert = 100f;
+
+    private Float gemesseneHoehe;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,9 +81,7 @@ public class HighJump extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start.setVisibility(View.VISIBLE);
-                cancel.setVisibility(View.GONE);
-                setStartMeasure(false);
+               messungBeenden();
             }
         });
     }
@@ -97,22 +98,26 @@ public class HighJump extends AppCompatActivity {
         registerListener(SensorTyp.ACCELEROMETER, 10000);
         HighJumpBarechnenThread thread = new HighJumpBarechnenThread(this, challange);
         thread.execute();
-//        Float ergebniss = 0f;
-//        try {
-//            ergebniss = (Float) thread.execute().get();
-//            result.setText("Du bist " + ergebniss + "mm hoch gesprungen");
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // /Am Ende der Messung den Cancel Button wieder deaktivieren
-//        cancel.setVisibility(View.GONE);
-//        start.setVisibility(View.VISIBLE);
-//        startMeasure=false;
-//        deaktivateListener(SensorTyp.LIGHT);
-//        deaktivateListener(SensorTyp.ACCELEROMETER);
+        Log.d("runnable","Messung ist angeschaltet: " + startMeasure);
+    }
+
+    public void ueberTrageMessergebnis() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                result.setText("Du bist " + getGemesseneHoehe() + "mm hoch gesprungen");
+                messungBeenden();
+            }
+        });
+    }
+
+    private void messungBeenden()
+    {
+        cancel.setVisibility(View.GONE);
+        start.setVisibility(View.VISIBLE);
+        startMeasure=false;
+        deaktivateListener(SensorTyp.LIGHT);
+        deaktivateListener(SensorTyp.ACCELEROMETER);
     }
 
     public Float getAktuelleHoehe() {
@@ -127,9 +132,16 @@ public class HighJump extends AppCompatActivity {
         return startMeasure;
     }
 
-
     public void setStartMeasure(Boolean startMeasure) {
         this.startMeasure = startMeasure;
+    }
+
+    public Float getGemesseneHoehe() {
+        return gemesseneHoehe;
+    }
+
+    public void setGemesseneHoehe(Float gemesseneHoehe) {
+        this.gemesseneHoehe = gemesseneHoehe;
     }
 
     /**
