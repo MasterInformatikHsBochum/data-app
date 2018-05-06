@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Context;
 
 public class HighJump extends AppCompatActivity {
 
@@ -30,6 +32,9 @@ public class HighJump extends AppCompatActivity {
     private Float aktuellerLichwert = 100f;
 
     private Float gemesseneHoehe;
+    public AudioManager am;
+    private int maxV;
+    private int curV;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +46,15 @@ public class HighJump extends AppCompatActivity {
         start.setVisibility(View.VISIBLE);
         setUpSensorListener();
         setUpListenerButtons();
+        this.am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        maxV = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        curV = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+    }
+
+    public void beep() {
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, maxV ,am.FLAG_PLAY_SOUND);
+        Log.d("LAUTSTÄRKE","maximale Lautstärke: " + maxV);
+        Log.d("LAUTSTÄRKE","aktuelle Lautstärke: " + curV);
     }
 
     private void setUpSensorListener() {

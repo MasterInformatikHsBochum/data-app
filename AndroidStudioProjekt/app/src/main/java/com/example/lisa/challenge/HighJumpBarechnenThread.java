@@ -1,5 +1,7 @@
 package com.example.lisa.challenge;
 
+import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
@@ -9,10 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class HighJumpBarechnenThread extends AsyncTask {
+public class HighJumpBarechnenThread extends AsyncTask{
 
     private HighJump hochsprung;
     ChallangeAction challangeAction;
+
+
 
     public HighJumpBarechnenThread(HighJump hochsprung, ChallangeAction challangeAction)
     {
@@ -55,27 +59,30 @@ public class HighJumpBarechnenThread extends AsyncTask {
 
         //Wenn das Handy in die Hosentasche gesteckt wird, warte 3 Sekunden und gebe dann den Starton wieder
         final ToneGenerator sound = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        sound.startTone(ToneGenerator.TONE_PROP_BEEP);
-
+        sound.startTone(ToneGenerator.TONE_PROP_BEEP, 2000);
+        Log.d("beep", "beep");
+        hochsprung.beep();
 
         // Solange es dunkel ist, und maximal 4 Sekunden Werte messen
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
         long end = t + 4000;
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
-        while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && System.currentTimeMillis() < end) {
+        while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
             messwerte.add(hochsprung.getAktuelleHoehe());
+            //Log.d("runnable", "Die aktuelle Hohe ist: " + hochsprung.getAktuelleHoehe());
         }
 
         if (hochsprung.getStartMeasure()) {
-            Log.d("runnable", "berechne Ergebniss");
+            Log.d("runnable", "berechne Ergebnis");
             float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
-            Log.d("runnable", "Du bist " + ergebniss + "mm hoschgesprungen");
+            Log.d("runnable", "Du bist " + ergebniss + " mm hochgesprungen");
             hochsprung.setStartMeasure(false);
             hochsprung.setGemesseneHoehe(ergebniss);
             hochsprung.ueberTrageMessergebnis();
