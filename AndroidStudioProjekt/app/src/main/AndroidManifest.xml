@@ -40,6 +40,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.lisa.challenge.MainActivity" />
         </activity>
+        <activity
+            android:name=".LineChart"
+            android:label="LineChart"
+            android:parentActivityName="com.example.lisa.challenge.HighJump">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.lisa.challenge.HighJump" />
+        </activity>
     </application>
 
 </manifest>

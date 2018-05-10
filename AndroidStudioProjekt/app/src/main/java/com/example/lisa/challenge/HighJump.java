@@ -1,5 +1,6 @@
 package com.example.lisa.challenge;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,6 +25,8 @@ public class HighJump extends AppCompatActivity {
     Button start;
     Button cancel;
     TextView result;
+
+    Button buttonNavigateToLinechart;
 
     //Gibt an, ob die Aufnahme gestartet worden ist.
     private Boolean startMeasure;
@@ -98,12 +101,22 @@ public class HighJump extends AppCompatActivity {
                messungBeenden();
             }
         });
+
+        buttonNavigateToLinechart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent lineChartPage = new Intent(HighJump.this, LineChart.class);
+                startActivity(lineChartPage);
+            }
+
+        });
     }
 
     private void setUpIds() {
         start = findViewById(R.id.buttonStartHighJump);
         cancel = findViewById(R.id.buttonCancelHighJump);
         result = findViewById(R.id.textResult);
+        buttonNavigateToLinechart = findViewById(R.id.buttonNavigateToLinechart);
     }
 
     private void actionHighJump() {
