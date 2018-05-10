@@ -76,7 +76,7 @@ public class HighJumpBarechnenThread extends AsyncTask{
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
             messwerte.add(hochsprung.getAktuelleHoehe());
-            //Log.d("runnable", "Die aktuelle Hohe ist: " + hochsprung.getAktuelleHoehe());
+            //Log.d("runnable", "Die aktuelle Beschleunigung ist: " + hochsprung.getAktuelleHoehe());
         }
 
         if (hochsprung.getStartMeasure()) {

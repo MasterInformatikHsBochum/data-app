@@ -49,12 +49,13 @@ public class HighJump extends AppCompatActivity {
         this.am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         maxV = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         curV = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+        Log.d("LAUTSTÄRKE","maximale Lautstärke: " + maxV);
+        Log.d("LAUTSTÄRKE","aktuelle Lautstärke: " + curV);
     }
 
     public void beep() {
         am.setStreamVolume(AudioManager.STREAM_MUSIC, maxV ,am.FLAG_PLAY_SOUND);
-        Log.d("LAUTSTÄRKE","maximale Lautstärke: " + maxV);
-        Log.d("LAUTSTÄRKE","aktuelle Lautstärke: " + curV);
+
     }
 
     private void setUpSensorListener() {
