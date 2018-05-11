@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class HighJumpBarechnenThread extends AsyncTask{
+public class HighJumpBerechnenThread extends AsyncTask{
 
     private HighJump hochsprung;
     ChallangeAction challangeAction;
 
 
 
-    public HighJumpBarechnenThread(HighJump hochsprung, ChallangeAction challangeAction)
+    public HighJumpBerechnenThread(HighJump hochsprung, ChallangeAction challangeAction)
     {
         this.hochsprung=hochsprung;
         this.challangeAction =challangeAction;

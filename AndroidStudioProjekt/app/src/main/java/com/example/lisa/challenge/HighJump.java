@@ -111,7 +111,7 @@ public class HighJump extends AppCompatActivity {
 
         registerListener(SensorTyp.LIGHT);
         registerListener(SensorTyp.ACCELEROMETER);
-        HighJumpBarechnenThread thread = new HighJumpBarechnenThread(this, challange);
+        HighJumpBerechnenThread thread = new HighJumpBerechnenThread(this, challange);
         thread.execute();
         Log.d("runnable","Messung ist angeschaltet: " + startMeasure);
     }
