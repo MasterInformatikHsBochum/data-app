@@ -8,7 +8,7 @@ public class numericintegration {
             sum += (messwerte.get(i).get(0)+4*messwerte.get(i+1).get(0)+messwerte.get(i+2).get(0));
 
             }
-        return ((messwerte.get(i).get(1)-messwerte.get(i).get(0))/3)*sum;
+        return ((messwerte.get(0).get(1)-messwerte.get(0).get(1))/3)*sum;
     }
 
 }
