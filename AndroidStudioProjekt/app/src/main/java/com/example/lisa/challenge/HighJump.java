@@ -109,9 +109,9 @@ public class HighJump extends AppCompatActivity {
 
     private void actionHighJump() {
 
-        registerListener(SensorTyp.LIGHT, 10000);
-        registerListener(SensorTyp.ACCELEROMETER, 10000);
-        HighJumpBarechnenThread thread = new HighJumpBarechnenThread(this, challange);
+        registerListener(SensorTyp.LIGHT);
+        registerListener(SensorTyp.ACCELEROMETER);
+        HighJumpBerechnenThread thread = new HighJumpBerechnenThread(this, challange);
         thread.execute();
         Log.d("runnable","Messung ist angeschaltet: " + startMeasure);
     }
@@ -163,15 +163,14 @@ public class HighJump extends AppCompatActivity {
      * Aktiviert das Messen der Sensordaten
      *
      * @param sensorTyp
-     * @param time      Zeitintervall in Microsekunden, in denen die Werte abgefragt werden
      */
-    public void registerListener(SensorTyp sensorTyp, int time) {
+    public void registerListener(SensorTyp sensorTyp) {
         if (sensorTyp == SensorTyp.ACCELEROMETER) {
-            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), time);
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),  challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.GYROSCOPE) {
-            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), time);
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.LIGHT) {
-            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), time);
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), challange.getAbtastrate());
         } else {
             throw new RuntimeException("SensorTyp is not defined");
         }

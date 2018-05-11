@@ -12,6 +12,12 @@ public class ChallangeAction {
        final ToneGenerator sound = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
 
     /**
+     * Die Abtastrate, die zum Aufzeichnen und Berechnen von Distanzen verwendet wird.
+     */
+    private static final int abtastrate=10000;
+
+
+    /**
      * Wenn der Lichtwert unter 10 ist (es ist Dunkel) wird true zurückgegeben, sonst false
      */
     public boolean isDark(float aktuellerLichtwert)
@@ -34,6 +40,10 @@ public class ChallangeAction {
             return 0;
         }
         return max- startValue;
+    }
+
+    public int getAbtastrate() {
+        return abtastrate;
     }
 
 }
