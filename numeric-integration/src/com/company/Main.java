@@ -31,12 +31,12 @@ public class Main {
 
         //System.out.println((((20*20*20)/3.0)+((4*20*20)/2))-(((0*0*0)/3)+(4*20*20)/2));
         System.out.println((((5*5*5)/3.0)+((4*5*5)/2)));
-        //System.out.println(numericintegration.Simpsonrule_weg(liste));
+        System.out.println(numericintegration.Simpsonrule_weg(liste));
         System.out.println(numericintegration.naive_weg(liste));
         System.out.println(numericintegration.trapez_weg(liste));
 
         System.out.println(((5*5)/2)+5);
-        //System.out.println(numericintegration.Simpsonrule_weg(liste2));
+        System.out.println(numericintegration.Simpsonrule_weg(liste2));
         System.out.println(numericintegration.naive_weg(liste2));
         System.out.println(numericintegration.trapez_weg(liste2));
 
