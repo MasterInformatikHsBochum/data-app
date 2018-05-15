@@ -58,7 +58,8 @@ obj/
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/libraries
-/.idea/chaches/Build_file_checksums.ser
+/.idea/chaches/build_file_checksums.ser
+/.idea/*
 /.idea/misc.xml
 /.idea/vcs.xml
 /.build.gradle
