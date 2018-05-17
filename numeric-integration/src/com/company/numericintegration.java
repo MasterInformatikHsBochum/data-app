@@ -5,7 +5,12 @@ import java.util.Vector;
 
 public class numericintegration {
     public static double Simpsonrule_weg(LinkedList<Vector<Double>> messwerte){
-        return 0;
+        double sum = 0;
+        int n = messwerte.size();
+        for (int i =0; i < n-2;i++){
+            sum += (messwerte.get(i+1).get(1)-messwerte.get(i).get(1))*(messwerte.get(i).get(0)+4*messwerte.get(i+1).get(0)+messwerte.get(i+2).get(0));
+        }
+        return (1/6.0)*sum;
     }
     public static double naive_weg(LinkedList<Vector<Double>> messwerte) {
         double sum = 0;
