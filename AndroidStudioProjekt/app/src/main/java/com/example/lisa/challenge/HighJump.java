@@ -90,6 +90,7 @@ public class HighJump extends AppCompatActivity {
                 cancel.setVisibility(View.VISIBLE);
                 start.setVisibility(View.GONE);
                 setStartMeasure(true);
+                aktuellerLichwert=100f;
                 actionHighJump();
             }
         });
