@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:background="@color/cyan"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     tools:context=".MainActivity">
+=======
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+        <include
+            layout="@layout/app_bar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+>>>>>>> 441a4265fbd563a3bd7c063bc7f7dcc9e1e92aa0
 
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" />
 
+<<<<<<< HEAD
     <Button
         android:id="@+id/buttonNavigateToHighJump"
         android:layout_width="match_parent"
@@ -58,4 +77,7 @@
         android:cropToPadding="false"
         android:scaleType="fitCenter" />
 </LinearLayout>
+=======
+</android.support.v4.widget.DrawerLayout>
+>>>>>>> 441a4265fbd563a3bd7c063bc7f7dcc9e1e92aa0
 

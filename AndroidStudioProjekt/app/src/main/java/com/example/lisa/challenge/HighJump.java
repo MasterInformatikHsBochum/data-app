@@ -70,7 +70,7 @@ public class HighJump extends AppCompatActivity {
             public void onSensorChanged(SensorEvent event) {
                 switch (event.sensor.getType()) {
                     //Bewegungssensor Liniar
-                    case Sensor.TYPE_ACCELEROMETER:
+                    case Sensor.TYPE_LINEAR_ACCELERATION:
                         aktuelleHoehe = event.values[1];
                         break;
                     //Lichsensor
@@ -167,7 +167,7 @@ public class HighJump extends AppCompatActivity {
      */
     public void registerListener(SensorTyp sensorTyp) {
         if (sensorTyp == SensorTyp.ACCELEROMETER) {
-            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),  challange.getAbtastrate());
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),  challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.GYROSCOPE) {
             sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.LIGHT) {
@@ -179,7 +179,7 @@ public class HighJump extends AppCompatActivity {
 
     public void deaktivateListener(SensorTyp sensorTyp) {
         if (sensorTyp == SensorTyp.ACCELEROMETER) {
-            sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+            sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION));
         } else if (sensorTyp == SensorTyp.GYROSCOPE) {
             sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
         } else if (sensorTyp == SensorTyp.LIGHT) {
