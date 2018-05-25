@@ -25,7 +25,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/mybutton"
             android:fontFamily="casual"
-            android:text="Hochsprung"
+            android:text="@string/nav_highJump"
             android:textSize="20sp" />
 
         <Button
@@ -37,7 +37,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/mybutton"
             android:fontFamily="casual"
-            android:text="Drehen"
+            android:text="@string/nav_rotate"
             android:textSize="20sp" />
 
         <Button
@@ -49,7 +49,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/mybutton"
             android:fontFamily="casual"
-            android:text="Weitsprung"
+            android:text="@string/nav_broadJump"
             android:textSize="20sp" />
 
     </LinearLayout>

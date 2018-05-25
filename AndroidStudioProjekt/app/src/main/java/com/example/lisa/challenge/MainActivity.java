@@ -84,11 +84,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_broadJump) {
-
+            Intent broadJumpPage = new Intent(MainActivity.this, BroadJump.class);
+            startActivity(broadJumpPage);
         } else if (id == R.id.nav_highJump) {
-
+            Intent highJumpPage = new Intent(MainActivity.this, HighJump.class);
+            startActivity(highJumpPage);
         } else if (id == R.id.nav_rotate) {
-
+            Intent rotatePage = new Intent(MainActivity.this, Rotate.class);
+            startActivity(rotatePage);
         } else if (id == R.id.nav_impressum) {
 
         }
