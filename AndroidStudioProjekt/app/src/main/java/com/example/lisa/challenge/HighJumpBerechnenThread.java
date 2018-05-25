@@ -74,9 +74,22 @@ public class HighJumpBerechnenThread extends AsyncTask{
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
         long end = t + 4000;
+        long time = System.currentTimeMillis();
+        long step = 10; //ms
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
-            messwerte.add(hochsprung.getAktuelleHoehe());
+
+            if(System.currentTimeMillis()>= t) {
+                messwerte.add(hochsprung.getAktuelleHoehe());
+                t = t + step;
+            }
+            /*
+            try{
+                Thread.sleep(1);
+            }catch(InterruptedException e){
+
+            }
+            */
             //Log.d("runnable", "Die aktuelle Beschleunigung ist: " + hochsprung.getAktuelleHoehe());
         }
 
@@ -84,11 +97,13 @@ public class HighJumpBerechnenThread extends AsyncTask{
             Log.d("runnable", "berechne Ergebnis");
             //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
             float ergebniss = challangeAction.numIntegrationStandard(messwerte);
+            // next line do not work
+            // float ergebniss = challangeAction.doppeltIntegration(messwerte);
             Log.d("runnable", "Du bist " + ergebniss + " m hochgesprungen");
             ergebniss = ergebniss * (float)100.0;
-            Log.d("runnable", "Du bist " + ergebniss + " mm hochgesprungen");
+            Log.d("runnable", "Du bist " + ergebniss + " cm hochgesprungen");
             hochsprung.setStartMeasure(false);
-            hochsprung.setGemesseneHoehe(ergebniss);
+            hochsprung.setGemesseneHoeheZentimeter(ergebniss);
             hochsprung.ueberTrageMessergebnis();
             return ergebniss;
         }
