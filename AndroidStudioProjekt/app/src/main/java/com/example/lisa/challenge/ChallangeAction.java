@@ -6,6 +6,8 @@ import android.util.Log;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
+
 
 public class ChallangeAction {
 
@@ -14,7 +16,7 @@ public class ChallangeAction {
     /**
      * Die Abtastrate, die zum Aufzeichnen und Berechnen von Distanzen verwendet wird.
      */
-    private static final int abtastrate=10000;
+    private static final int abtastrate=100;
 
 
     /**
@@ -40,6 +42,43 @@ public class ChallangeAction {
             return 0;
         }
         return max- startValue;
+    }
+
+    public float numIntegrationStandard(List<Float> messwerte){
+
+        /**
+         Float[] floatArray = messwerte.toArray(new Float[messwerte.size()]);
+         float periodendauer = 1/abtastrate;
+
+         for(int i = 0; i < floatArray.length; i++){
+         floatArray[i] = floatArray[i] * periodendauer * periodendauer;
+         }
+
+         float flaeche = 0;
+
+         for (int i = 0; i < floatArray.length; i++){
+         flaeche = flaeche + floatArray[i];
+         }
+         **/
+        float periodendauer = (float)1.0/(float)abtastrate;
+        Log.d("runnable", "Periodendauer " + periodendauer);
+        List<Float> listFlaeche = new ArrayList<>();
+        for(int i = 0; i < messwerte.size(); i++){
+            listFlaeche.add( messwerte.get(i) * periodendauer * periodendauer);
+        }
+//        Log.d("runnable", "listFlaeche(0) " + listFlaeche.get(0));
+
+        float flaeche = 0;
+
+        for(int i = 0; i < listFlaeche.size(); i++){
+            if(listFlaeche.get(i)>=0){
+                flaeche = flaeche + listFlaeche.get(i);
+            }
+            //Log.d("runnable","zurückgelegter weg: "+ flaeche);
+        }
+
+
+        return flaeche;
     }
 
     public int getAbtastrate() {

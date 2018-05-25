@@ -40,6 +40,7 @@ public class HighJumpBerechnenThread extends AsyncTask{
                 e.printStackTrace();
             }
         }
+        Log.d("runnable", " >>>>> Aktueller Lichtewert = " + hochsprung.getAktuellerLichwert());
     }
 
 
@@ -81,7 +82,10 @@ public class HighJumpBerechnenThread extends AsyncTask{
 
         if (hochsprung.getStartMeasure()) {
             Log.d("runnable", "berechne Ergebnis");
-            float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
+            //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
+            float ergebniss = challangeAction.numIntegrationStandard(messwerte);
+            Log.d("runnable", "Du bist " + ergebniss + " m hochgesprungen");
+            ergebniss = ergebniss * (float)100.0;
             Log.d("runnable", "Du bist " + ergebniss + " mm hochgesprungen");
             hochsprung.setStartMeasure(false);
             hochsprung.setGemesseneHoehe(ergebniss);
