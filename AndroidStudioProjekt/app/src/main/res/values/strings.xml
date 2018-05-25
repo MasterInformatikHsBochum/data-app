@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Challenge</string>
+    <color name="cyan">#1FF2CF</color>
 </resources>
