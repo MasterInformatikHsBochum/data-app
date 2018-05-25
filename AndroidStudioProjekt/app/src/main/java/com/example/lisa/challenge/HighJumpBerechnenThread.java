@@ -75,10 +75,19 @@ public class HighJumpBerechnenThread extends AsyncTask{
         long t = System.currentTimeMillis();
         long end = t + 4000;
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
+        double v=0;
+        double dt =1/100.0; // Hundert Werte Pro sekunde
+        double x = 0;
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
-            messwerte.add(hochsprung.getAktuelleHoehe());
+            double a= hochsprung.getAktuelleHoehe();
+            x = a*dt*dt+v*dt+x;
+            v = a*dt+v;
+
+
+            //messwerte.add(hochsprung.getAktuelleHoehe())
             //Log.d("runnable", "Die aktuelle Beschleunigung ist: " + hochsprung.getAktuelleHoehe());
         }
+        Log.d("runnable", "Die Sprunghöhe beträgt" + x);
 
         if (hochsprung.getStartMeasure()) {
             Log.d("runnable", "berechne Ergebnis");
