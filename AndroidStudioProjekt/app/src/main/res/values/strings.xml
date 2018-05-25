@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Challenge</string>
-<<<<<<< HEAD
     <color name="cyan">#1FF2CF</color>
-=======
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Your Challange</string>
@@ -12,5 +10,4 @@
     <string name="nav_broadJump">Weitsprung</string>
     <string name="nav_rotate">Drehen</string>
     <string name="nav_impressum">Impressum</string>
->>>>>>> 441a4265fbd563a3bd7c063bc7f7dcc9e1e92aa0
 </resources>

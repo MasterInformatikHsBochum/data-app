@@ -5,20 +5,17 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
     android:background="@color/cyan"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     tools:context=".MainActivity">
-=======
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
         <include
             layout="@layout/app_bar_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
->>>>>>> 441a4265fbd563a3bd7c063bc7f7dcc9e1e92aa0
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"
@@ -29,55 +26,5 @@
             app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/activity_main_drawer" />
 
-<<<<<<< HEAD
-    <Button
-        android:id="@+id/buttonNavigateToHighJump"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/mybutton"
-        android:fontFamily="casual"
-        android:text="Hochsprung"
-        android:textSize="20sp" />
-
-
-    <Button
-        android:id="@+id/buttonNavigateToRotate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/mybutton"
-        android:fontFamily="casual"
-        android:text="Drehen"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/buttonNavigateToBoardJump"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/mybutton"
-        android:fontFamily="casual"
-        android:text="Weitsprung"
-        android:textSize="20sp" />
-
-    <com.example.lisa.challenge.GifImageView
-        android:id="@+id/GifImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter" />
-</LinearLayout>
-=======
 </android.support.v4.widget.DrawerLayout>
->>>>>>> 441a4265fbd563a3bd7c063bc7f7dcc9e1e92aa0
 
