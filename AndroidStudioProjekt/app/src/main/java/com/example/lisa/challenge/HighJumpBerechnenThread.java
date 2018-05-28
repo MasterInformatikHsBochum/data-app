@@ -78,33 +78,23 @@ public class HighJumpBerechnenThread extends AsyncTask{
         long step = 10; //ms
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
         double v=0;
-        double dt =1/100.0; // Hundert Werte Pro sekunde
+        double dt =1/(double)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
+        Log.d("runnable", "dt: " + dt);
         double x = 0;
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
-<<<<<<< HEAD
 
             if(System.currentTimeMillis()>= t) {
                 messwerte.add(hochsprung.getAktuelleHoehe());
+                double a= hochsprung.getAktuelleHoehe();
+                x = a*dt*dt+v*dt+x;
+                v = a*dt+v;
                 t = t + step;
             }
-            /*
-            try{
-                Thread.sleep(1);
-            }catch(InterruptedException e){
 
-            }
-            */
-=======
-            double a= hochsprung.getAktuelleHoehe();
-            x = a*dt*dt+v*dt+x;
-            v = a*dt+v;
-
-
-            //messwerte.add(hochsprung.getAktuelleHoehe())
->>>>>>> d23d6585d5bb6a009be3cf6eb39fb0cfd2d598a4
-            //Log.d("runnable", "Die aktuelle Beschleunigung ist: " + hochsprung.getAktuelleHoehe());
         }
-        Log.d("runnable", "Die Sprunghöhe beträgt" + x);
+        Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
+        x = x * 100;
+        Log.d("runnable", "Die Sprunghöhe beträgt " + x + "cm");
 
         if (hochsprung.getStartMeasure()) {
             Log.d("runnable", "berechne Ergebnis");
