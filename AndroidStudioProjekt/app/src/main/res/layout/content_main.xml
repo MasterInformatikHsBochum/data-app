@@ -28,18 +28,6 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/buttonNavigateToRotate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/mybutton"
-            android:fontFamily="casual"
-            android:text="@string/nav_rotate"
-            android:textSize="20sp" />
-
-        <Button
             android:id="@+id/buttonNavigateToBoardJump"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,6 +37,18 @@
             android:background="@drawable/mybutton"
             android:fontFamily="casual"
             android:text="@string/nav_broadJump"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/buttonNavigateToRotate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/mybutton"
+            android:fontFamily="casual"
+            android:text="@string/nav_rotate"
             android:textSize="20sp" />
 
         <com.example.lisa.challenge.GifImageView
