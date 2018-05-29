@@ -7,14 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class BroadJump extends AppCompatActivity {
+public class BroadJump extends MyNavigation {
 
     Button navigateToMainMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setActivity(BroadJump.this, R.layout.broadjump);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.broadjump);
         setUpIds();
         setUpListenerButtons();
     }
