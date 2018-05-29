@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.Context;
 
-public class HighJump extends AppCompatActivity {
+public class HighJump extends MyNavigation {
 
     ChallangeAction challange;
 
@@ -39,8 +39,8 @@ public class HighJump extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setActivity(HighJump.this,R.layout.highjump );
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.highjump);
         challange = new ChallangeAction();
         setUpIds();
         cancel.setVisibility(View.GONE);
