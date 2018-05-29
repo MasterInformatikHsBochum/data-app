@@ -27,7 +27,7 @@ public class MainActivity extends MyNavigation{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Navigation erzeugen. Die aufrufende Aktivitaet muss fuer die Abstracte Klasse gesetzt werden
-        setActivity(MainActivity.this);
+        setActivity(MainActivity.this, R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
         setUpIds();

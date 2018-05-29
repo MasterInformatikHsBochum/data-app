@@ -7,13 +7,22 @@
     android:layout_height="match_parent"
     android:background="@color/cyan"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    tools:context=".MainActivity">
 
-    <include
-        layout="@layout/app_bar_main"
+    <!-- CoordinatorLayout sorgt dafuer dass sich Toolbar und Content nicht ueberlappen -->
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <!-- Toolbar einbinden -->
+        <include layout="@layout/app_bar_main"/>
+        <!-- Unsere selbst designte Seite -->
+        <include layout="@layout/content_main" />
 
+    </android.support.design.widget.CoordinatorLayout>
+
+
+    <!--Navigationsleiste, der linken Seite einbinden -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -22,6 +31,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
+
 
 </android.support.v4.widget.DrawerLayout>
 

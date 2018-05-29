@@ -16,16 +16,18 @@ public abstract class MyNavigation extends AppCompatActivity implements Navigati
 
     DrawerLayout drawer;
     Activity activity;
+    int contentView;
 
-    protected void setActivity(Activity activity)
+    protected void setActivity(Activity activity, int contentView )
     {
         this.activity=activity;
         this.drawer=drawer;
+        this.contentView=contentView;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
+        setContentView(contentView);
         drawer= (DrawerLayout) findViewById(R.id.drawer_layout);
 
         super.onCreate(savedInstanceState);

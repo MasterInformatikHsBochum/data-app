@@ -7,16 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class Rotate extends AppCompatActivity {
+public class Rotate extends MyNavigation {
 
     Button navigateToMainMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setActivity(Rotate.this, R.layout.rotate);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rotate);
+
+       // setContentView(R.layout.rotate);
         setUpIds();
         setUpListenerButtons();
+
+
+
     }
 
     private void setUpListenerButtons() {
