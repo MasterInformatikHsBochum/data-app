@@ -31,7 +31,8 @@ public class HighJump extends AppCompatActivity {
     private Float aktuelleHoehe = 0f;
     private Float aktuellerLichwert = 100f;
 
-    private Float gemesseneHoehe;
+    private Float gemesseneHoeheMillimeter;
+    private Float gemesseneHoeheZentimeter;
     public AudioManager am;
     private int maxV;
     private int curV;
@@ -121,7 +122,8 @@ public class HighJump extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                result.setText("Du bist " + getGemesseneHoehe() + "mm hoch gesprungen");
+                // result.setText("Du bist " + getGemesseneHoeheMillimeter() + "mm hoch gesprungen");
+                result.setText("Du bist " + getGemesseneHoeheZentimeter() + "cm hoch gesprungen");
                 messungBeenden();
             }
         });
@@ -152,17 +154,28 @@ public class HighJump extends AppCompatActivity {
         this.startMeasure = startMeasure;
     }
 
-    public Float getGemesseneHoehe() {
-        return gemesseneHoehe;
+    public Float getGemesseneHoeheMillimeter() {
+        return gemesseneHoeheMillimeter;
     }
 
-    public void setGemesseneHoehe(Float gemesseneHoehe) {
-        this.gemesseneHoehe = gemesseneHoehe;
+    public void setGemesseneHoeheMillimeter(Float gemesseneHoehe) {
+        this.gemesseneHoeheMillimeter = gemesseneHoehe;
+    }
+
+    public Float getGemesseneHoeheZentimeter() {
+        return gemesseneHoeheZentimeter;
+    }
+
+    public void setGemesseneHoeheZentimeter(Float gemesseneHoehe) {
+        this.gemesseneHoeheZentimeter = gemesseneHoehe;
     }
 
     /**
      * Aktiviert das Messen der Sensordaten
      *
+     * Info:
+     * challange.getAbtastrate() = 100 -> registerListener erwartet ein Integerwert mit einer Abstastrate pro Us,
+     * also 100 * 1000 * 1000.
      * @param sensorTyp
      */
     public void registerListener(SensorTyp sensorTyp) {

@@ -74,30 +74,39 @@ public class HighJumpBerechnenThread extends AsyncTask{
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
         long end = t + 4000;
+        long time = System.currentTimeMillis();
+        long step = 10; //ms
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
         double v=0;
-        double dt =1/100.0; // Hundert Werte Pro sekunde
+        double dt =1/(double)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
+        Log.d("runnable", "dt: " + dt);
         double x = 0;
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
-            double a= hochsprung.getAktuelleHoehe();
-            x = a*dt*dt+v*dt+x;
-            v = a*dt+v;
 
+            if(System.currentTimeMillis()>= t) {
+                messwerte.add(hochsprung.getAktuelleHoehe());
+                double a= hochsprung.getAktuelleHoehe();
+                x = a*dt*dt+v*dt+x;
+                v = a*dt+v;
+                t = t + step;
+            }
 
-            //messwerte.add(hochsprung.getAktuelleHoehe())
-            //Log.d("runnable", "Die aktuelle Beschleunigung ist: " + hochsprung.getAktuelleHoehe());
         }
-        Log.d("runnable", "Die Sprunghöhe beträgt" + x);
+        Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
+        x = x * 100;
+        Log.d("runnable", "Die Sprunghöhe beträgt " + x + "cm");
 
         if (hochsprung.getStartMeasure()) {
             Log.d("runnable", "berechne Ergebnis");
             //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
             float ergebniss = challangeAction.numIntegrationStandard(messwerte);
+            // next line do not work
+            // float ergebniss = challangeAction.doppeltIntegration(messwerte);
             Log.d("runnable", "Du bist " + ergebniss + " m hochgesprungen");
             ergebniss = ergebniss * (float)100.0;
-            Log.d("runnable", "Du bist " + ergebniss + " mm hochgesprungen");
+            Log.d("runnable", "Du bist " + ergebniss + " cm hochgesprungen");
             hochsprung.setStartMeasure(false);
-            hochsprung.setGemesseneHoehe(ergebniss);
+            hochsprung.setGemesseneHoeheZentimeter(ergebniss);
             hochsprung.ueberTrageMessergebnis();
             return ergebniss;
         }
