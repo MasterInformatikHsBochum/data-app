@@ -64,6 +64,7 @@ public abstract class MyNavigation extends AppCompatActivity implements Navigati
             return true;
         }
 
+
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             // Handle action bar item clicks here. The action bar will
@@ -73,6 +74,8 @@ public abstract class MyNavigation extends AppCompatActivity implements Navigati
 
             //noinspection SimplifiableIfStatement
             if (id == R.id.action_settings) {
+                //TODO einfuegen was passieren soll wenn settings gedrueckt werden.
+                //Seite mit Namenseingabe?
                 return true;
             }
 
@@ -84,7 +87,6 @@ public abstract class MyNavigation extends AppCompatActivity implements Navigati
         public boolean onNavigationItemSelected(MenuItem item) {
             // Handle navigation view item clicks here.
             int id = item.getItemId();
-//FIXME
             if (id == R.id.nav_broadJump) {
                 Intent broadJumpPage = new Intent(activity, BroadJump.class);
                 startActivity(broadJumpPage);
@@ -95,7 +97,10 @@ public abstract class MyNavigation extends AppCompatActivity implements Navigati
                 Intent rotatePage = new Intent(activity, Rotate.class);
                 startActivity(rotatePage);
             } else if (id == R.id.nav_impressum) {
-
+                //TODO
+            } else if (id == R.id.nav_active_main) {
+                Intent main = new Intent(activity, MainActivity.class);
+                startActivity(main);
             }
 
             drawer.closeDrawer(GravityCompat.START);

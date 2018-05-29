@@ -9,5 +9,6 @@
     <string name="nav_highJump">Hochsprung</string>
     <string name="nav_broadJump">Weitsprung</string>
     <string name="nav_rotate">Drehen</string>
+    <string name="nav_activ_main">Startseite</string>
     <string name="nav_impressum">Impressum</string>
 </resources>
