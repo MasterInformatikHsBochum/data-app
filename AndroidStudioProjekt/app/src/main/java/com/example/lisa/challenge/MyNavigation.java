@@ -97,7 +97,8 @@ public abstract class MyNavigation extends AppCompatActivity implements Navigati
                 Intent rotatePage = new Intent(activity, Rotate.class);
                 startActivity(rotatePage);
             } else if (id == R.id.nav_impressum) {
-                //TODO
+                Intent impressum = new Intent(activity, Impressum.class);
+                startActivity(impressum);
             } else if (id == R.id.nav_active_main) {
                 Intent main = new Intent(activity, MainActivity.class);
                 startActivity(main);
