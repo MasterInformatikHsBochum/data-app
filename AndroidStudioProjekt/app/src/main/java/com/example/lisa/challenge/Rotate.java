@@ -49,13 +49,13 @@ public class Rotate extends MyNavigation {
         start.setVisibility(View.VISIBLE);
         setUpSensorListener();
         setUpListenerButtons();
-        this.am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        this.am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         maxV = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         curV = am.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
 
     public void beep() {
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, maxV ,am.FLAG_PLAY_SOUND);
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, maxV, am.FLAG_PLAY_SOUND);
 
     }
 
@@ -101,7 +101,7 @@ public class Rotate extends MyNavigation {
                 cancel.setVisibility(View.VISIBLE);
                 start.setVisibility(View.GONE);
                 setStartMeasure(true);
-                aktuellerLichwert=100f;
+                aktuellerLichwert = 100f;
                 actionRotate();
             }
         });
@@ -125,7 +125,7 @@ public class Rotate extends MyNavigation {
         registerListener(SensorTyp.ROTATE);
         RotationBerechnenThread thread = new RotationBerechnenThread(this, challange);
         thread.execute();
-        Log.d("runnable","Messung ist angeschaltet: " + startMeasure);
+        Log.d("runnable", "Messung ist angeschaltet: " + startMeasure);
     }
 
     public void ueberTrageMessergebnis() {
@@ -143,7 +143,7 @@ public class Rotate extends MyNavigation {
     {
         cancel.setVisibility(View.GONE);
         start.setVisibility(View.VISIBLE);
-        startMeasure=false;
+        startMeasure = false;
         deaktivateListener(SensorTyp.LIGHT);
         deaktivateListener(SensorTyp.ROTATE);
     }
