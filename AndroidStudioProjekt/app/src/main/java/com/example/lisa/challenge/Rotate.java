@@ -60,8 +60,12 @@ public class Rotate extends MyNavigation {
     }
 
     private void setUpSensorListener() {
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorEventListener = new SensorEventListener() {
+            float[] mGeomagnetic = null;
+            float[] mGravity = null;
+
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
@@ -69,18 +73,24 @@ public class Rotate extends MyNavigation {
 
             @Override
             public void onSensorChanged(SensorEvent event) {
+
                 switch (event.sensor.getType()) {
                     //Bewegungssensor Liniar
-                    case Sensor.TYPE_ROTATION_VECTOR:
+                    case Sensor.TYPE_GAME_ROTATION_VECTOR:
+                        mGravity = event.values;
                         berechneWinkel(event);
                         break;
-                    //Lichsensor
+                    case Sensor.TYPE_MAGNETIC_FIELD:
+                        mGeomagnetic = event.values;
+                        //Lichsensor
                     case Sensor.TYPE_LIGHT:
                         aktuellerLichwert = event.values[0];
                         break;
                 }
+               // berecheMitGravitation();
 
             }
+
             private void berechneWinkel(SensorEvent event) {//Berechne Winkel
                 float[] orientation = new float[3];
                 float[] rMat = new float[9];
@@ -100,6 +110,31 @@ public class Rotate extends MyNavigation {
 
                // aktuelleGradZahl =(int) (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[2]) + 360) % 360;
             }
+
+            private void berecheMitGravitation(){
+                if (mGravity != null && mGeomagnetic != null) {
+
+                    // * <p>
+                    //     * Computes the inclination matrix <b>I</b> as well as the rotation matrix
+                    //     * <b>R</b> transforming a vector from the device coordinate system to the
+                    //     * world's coordinate system which is defined as a direct orthonormal basis,
+                    //     * where:
+                    //     * </p>
+                    float R[] = new float[9];
+                    float I[] = new float[9];
+
+                    boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+                    //if (success) {
+                    float orientation[] = new float[3];
+                    SensorManager.getOrientation(R, orientation);
+                    float azimut = orientation[0]; // orientation contains: azimut, pitch and roll
+                    float pitch = orientation[1]; //Neigung
+                    float roll = orientation[2]; //Rollbewegung um y
+                    aktuelleGradZahl = (int) (Math.toDegrees(roll) +360) % 360;
+                    // }
+                }
+            }
+
         };
     }
 
@@ -132,6 +167,7 @@ public class Rotate extends MyNavigation {
 
         registerListener(SensorTyp.LIGHT);
         registerListener(SensorTyp.ROTATE);
+        registerListener(SensorTyp.MAGNETIC_FIELD);
         RotationBerechnenThread thread = new RotationBerechnenThread(this, challange);
         thread.execute();
         Log.d("runnable", "Messung ist angeschaltet: " + startMeasure);
@@ -154,39 +190,45 @@ public class Rotate extends MyNavigation {
         startMeasure = false;
         deaktivateListener(SensorTyp.LIGHT);
         deaktivateListener(SensorTyp.ROTATE);
+        deaktivateListener(SensorTyp.MAGNETIC_FIELD);
     }
 
     /**
      * Aktiviert das Messen der Sensordaten
-     *
+     * <p>
      * Info:
      * challange.getAbtastrate() = 100 -> registerListener erwartet ein Integerwert mit einer Abstastrate pro Us,
      * also 100 * 1000 * 1000.
+     *
      * @param sensorTyp
      */
     public void registerListener(SensorTyp sensorTyp) {
-        if (sensorTyp == SensorTyp.ACCELEROMETER) {
+        if (sensorTyp == SensorTyp.MAGNETIC_FIELD) {
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), challange.getAbtastrate());
+        } else if (sensorTyp == SensorTyp.ACCELEROMETER) {
             sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION), challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.GYROSCOPE) {
             sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.LIGHT) {
             sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.ROTATE) {
-            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR), challange.getAbtastrate());
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), challange.getAbtastrate());
         } else {
             throw new RuntimeException("SensorTyp is not defined");
         }
     }
 
     public void deaktivateListener(SensorTyp sensorTyp) {
-        if (sensorTyp == SensorTyp.ACCELEROMETER) {
+        if (sensorTyp == SensorTyp.MAGNETIC_FIELD) {
+            sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD));
+        } else if (sensorTyp == SensorTyp.ACCELEROMETER) {
             sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION));
         } else if (sensorTyp == SensorTyp.GYROSCOPE) {
             sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
         } else if (sensorTyp == SensorTyp.LIGHT) {
             sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT));
         } else if (sensorTyp == SensorTyp.ROTATE) {
-            sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR));
+            sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR));
         } else {
             throw new RuntimeException("SensorTyp is not defined");
         }
