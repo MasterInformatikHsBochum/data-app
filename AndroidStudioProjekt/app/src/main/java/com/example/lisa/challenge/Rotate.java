@@ -59,16 +59,6 @@ public class Rotate extends MyNavigation {
 
     }
 
-    public void berechneWinkel(SensorEvent event)
-    {//Berechne Winkel
-        float[] orientation = new float[3];
-        float[] rMat = new float[9];
-        // calculate th rotation matrix
-        SensorManager.getRotationMatrixFromVector(rMat, event.values);
-        // get the azimuth value (orientation[0]) in degree
-        aktuelleGradZahl =(int) (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[2]) + 360) % 360;
-    }
-
     private void setUpSensorListener() {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorEventListener = new SensorEventListener() {
@@ -90,6 +80,25 @@ public class Rotate extends MyNavigation {
                         break;
                 }
 
+            }
+            private void berechneWinkel(SensorEvent event) {//Berechne Winkel
+                float[] orientation = new float[3];
+                float[] rMat = new float[9];
+
+                //Schreibe in rMAth die Rotationsmatrix aus dem Event
+                SensorManager.getRotationMatrixFromVector(rMat, event.values);
+
+                //Zerlege die Rotationsmatrik in die Einzelnden bestandteile
+                SensorManager.getOrientation(rMat, orientation);
+                float azimut = orientation[0]; // orientation contains: azimut, pitch and roll
+                float pitch = orientation[1]; //Neigung
+                float roll = orientation[2]; //Rollbewegung um y
+
+                // get the azimuth value (orientation[0]) in degree
+                //val[0] in degrees [-180 , +180]
+                aktuelleGradZahl = (int) (Math.toDegrees(roll) + 360) % 360;
+
+               // aktuelleGradZahl =(int) (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[2]) + 360) % 360;
             }
         };
     }
@@ -139,8 +148,7 @@ public class Rotate extends MyNavigation {
         });
     }
 
-    private void messungBeenden()
-    {
+    private void messungBeenden() {
         cancel.setVisibility(View.GONE);
         start.setVisibility(View.VISIBLE);
         startMeasure = false;
