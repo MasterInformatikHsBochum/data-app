@@ -76,7 +76,7 @@ public class Rotate extends MyNavigation {
 
                 switch (event.sensor.getType()) {
                     //Bewegungssensor Liniar
-                    case Sensor.TYPE_GAME_ROTATION_VECTOR:
+                    case Sensor.TYPE_ROTATION_VECTOR:
                         mGravity = event.values;
                         berechneWinkel(event);
                         break;
@@ -212,7 +212,7 @@ public class Rotate extends MyNavigation {
         } else if (sensorTyp == SensorTyp.LIGHT) {
             sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), challange.getAbtastrate());
         } else if (sensorTyp == SensorTyp.ROTATE) {
-            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), challange.getAbtastrate());
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR), challange.getAbtastrate());
         } else {
             throw new RuntimeException("SensorTyp is not defined");
         }
@@ -228,7 +228,7 @@ public class Rotate extends MyNavigation {
         } else if (sensorTyp == SensorTyp.LIGHT) {
             sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT));
         } else if (sensorTyp == SensorTyp.ROTATE) {
-            sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR));
+            sensorManager.unregisterListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR));
         } else {
             throw new RuntimeException("SensorTyp is not defined");
         }
