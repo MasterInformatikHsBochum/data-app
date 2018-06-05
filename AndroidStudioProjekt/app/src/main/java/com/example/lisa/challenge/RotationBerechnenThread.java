@@ -100,7 +100,7 @@ class RotationBerechnenThread extends AsyncTask {
         //Berechne Gradzahl für 2. Kontrollpunkte. Diese sollen nicht exakt mit der Ausgangslage übereinstimmen. Messung soll nicht zu früh beginnen
         final int kontrollpunkt1 = (gradzahlStart + 30) % 360;
         final int kontrollpunkt2 = (kontrollpunkt1 + 180) % 360;
-        int kontrollpunkt = kontrollpunkt2;
+        int kontrollpunkt = kontrollpunkt1;
 
         int drehung = -1; //Beim Ersten druchlauf muss 0 erreicht werden
 
@@ -112,7 +112,7 @@ class RotationBerechnenThread extends AsyncTask {
 
             //Abwechselnd an 2 sich gegenüberliegenden Punkten auf den Kreis Prüfen, ob die Person sich dreht
             //Hierfür wird der Bezugspunk (Kontrollpunk) beim erreichen immer um 180 Grad %360 verschoben. Wenn Ausgangspunkt erreicht ist zähle hoch
-            if (isAktuellerWertnNahmeKontrollpunk(aktuellerWert, kontrollpunkt, 40)) {
+            if (isAktuellerWertnNahmeKontrollpunk(aktuellerWert, kontrollpunkt, 100)) {
                 Log.d("runnable", "Kontrollzone erreicht");
                 if (kontrollpunkt == kontrollpunkt1) //Ausgangspunkt
                 {
@@ -130,7 +130,7 @@ class RotationBerechnenThread extends AsyncTask {
             }
             //Warte ein paar millisekunden, bis zur Auswertung mit dem nächsten Wert
             try {
-                Thread.sleep(5);
+                Thread.sleep(3);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
