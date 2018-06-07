@@ -25,7 +25,7 @@ public class ChallangeAction {
      */
     public boolean isDark(float aktuellerLichtwert)
     {
-            return aktuellerLichtwert<10? true: false;
+            return aktuellerLichtwert<50? true: false;
     }
 
     public float getDiffenenzOfStartValueAndMax(float startValue, List<Float> messwerte)

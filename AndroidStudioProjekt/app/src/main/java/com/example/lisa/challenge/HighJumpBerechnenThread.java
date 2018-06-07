@@ -44,6 +44,24 @@ public class HighJumpBerechnenThread extends AsyncTask{
         Log.d("runnable", " >>>>> Aktueller Lichtewert = " + hochsprung.getAktuellerLichwert());
     }
 
+    /**
+     * Wenn das Handy in die Hosentasche gesteckt wird, warte 3 Sekunden und gebe dann den Starton wieder
+     */
+    public void generateTone() {
+
+        final ToneGenerator sound = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        sound.startTone(ToneGenerator.TONE_PROP_BEEP, 2000);
+        Log.d("beep", "beep");
+        hochsprung.beep();
+    }
+
+
 
     @Override
     protected Object doInBackground(Object[] objects) {
@@ -54,6 +72,7 @@ public class HighJumpBerechnenThread extends AsyncTask{
         if (hochsprung.getStartMeasure() == false) {
             return null;
         }
+
 
         //Wenn das Handy in die Hosentasche gesteckt wird, warte 3 Sekunden und gebe dann den Starton wieder
         final ToneGenerator sound = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
@@ -66,6 +85,13 @@ public class HighJumpBerechnenThread extends AsyncTask{
         sound.startTone(ToneGenerator.TONE_PROP_BEEP, 2000);
         Log.d("beep", "beep");
         hochsprung.beep();
+
+        generateTone();
+
+        //Bestimme die Bezugshöhe von der die Person abspringt
+        float hoeheAusgangspunkt = hochsprung.getAktuelleBeschleunigung();
+        Log.d("runnable", "Die Ausgangshöhe ist" + hoeheAusgangspunkt);
+
 
         // Solange es dunkel ist, und maximal 4 Sekunden Werte messen
         List<Float> messwerte = new ArrayList<>();
