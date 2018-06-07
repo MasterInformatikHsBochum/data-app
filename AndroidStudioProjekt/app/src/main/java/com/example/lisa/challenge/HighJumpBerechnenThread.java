@@ -73,19 +73,6 @@ public class HighJumpBerechnenThread extends AsyncTask{
             return null;
         }
 
-
-        //Wenn das Handy in die Hosentasche gesteckt wird, warte 3 Sekunden und gebe dann den Starton wieder
-        final ToneGenerator sound = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        sound.startTone(ToneGenerator.TONE_PROP_BEEP, 2000);
-        Log.d("beep", "beep");
-        hochsprung.beep();
-
         generateTone();
 
         //Bestimme die Bezugshöhe von der die Person abspringt
@@ -100,10 +87,10 @@ public class HighJumpBerechnenThread extends AsyncTask{
         long time = System.currentTimeMillis();
         long step = 1; //ms
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
-        double v=0;
-        double dt =1/(double)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
+        float v=0;
+        float dt =1/(float)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
         Log.d("runnable", "dt: " + dt);
-        double x = 0;
+        float x = 0;
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
 
 
@@ -113,7 +100,7 @@ public class HighJumpBerechnenThread extends AsyncTask{
              */
             if(System.currentTimeMillis()>= t) {
                 messwerte.add(hochsprung.getAktuelleBeschleunigung());
-                double a = Math.abs(hochsprung.getAktuelleBeschleunigung());
+                float a = Math.abs(hochsprung.getAktuelleBeschleunigung());
                 x = a*dt*dt+v*dt+x;
                 v = a*dt+v;
                 t = t + step;
@@ -123,7 +110,6 @@ public class HighJumpBerechnenThread extends AsyncTask{
 
         x = x/2;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
-        float ergebniss = (float) x;
         x = x * 100;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "cm");
 
@@ -131,15 +117,11 @@ public class HighJumpBerechnenThread extends AsyncTask{
             Log.d("runnable", "berechne Ergebnis");
             //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
             //float ergebniss = challangeAction.numIntegrationStandard(messwerte);
-            // next line do not work
-            float ergebnis2 = 1;//float ergebnis2 = challangeAction.doppeltIntegration(messwerte);
-            Log.d("runnable", "Du bist " + ergebnis2 + " m hochgesprungen");
-            ergebnis2 = ergebnis2 * (float)100.0;
-            Log.d("runnable", "Du bist " + ergebnis2 + " cm hochgesprungen");
+
             hochsprung.setStartMeasure(false);
-            hochsprung.setGemesseneHoeheZentimeter(ergebniss);
+            hochsprung.setGemesseneHoeheZentimeter(x);
             hochsprung.ueberTrageMessergebnis();
-            return ergebniss;
+            return x;
         }
 
         return null;
