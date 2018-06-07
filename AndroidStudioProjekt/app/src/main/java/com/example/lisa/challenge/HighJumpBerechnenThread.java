@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.lang.Math;
 
 public class HighJumpBerechnenThread extends AsyncTask{
 
@@ -54,10 +55,6 @@ public class HighJumpBerechnenThread extends AsyncTask{
             return null;
         }
 
-        //Bestimme die Bezugshöhe von der die Person abspringt
-        float hoeheAusgangspunkt = hochsprung.getAktuelleHoehe();
-        Log.d("runnable", "Die Ausgangshöhe ist" + hoeheAusgangspunkt);
-
         //Wenn das Handy in die Hosentasche gesteckt wird, warte 3 Sekunden und gebe dann den Starton wieder
         final ToneGenerator sound = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
 
@@ -73,9 +70,9 @@ public class HighJumpBerechnenThread extends AsyncTask{
         // Solange es dunkel ist, und maximal 4 Sekunden Werte messen
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
-        long end = t + 4000;
+        long end = t + 3000;
         long time = System.currentTimeMillis();
-        long step = 10; //ms
+        long step = 1; //ms
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
         double v=0;
         double dt =1/(double)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
@@ -83,28 +80,36 @@ public class HighJumpBerechnenThread extends AsyncTask{
         double x = 0;
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
 
+
+            /*
+             * 1. Möglichkeit: Alle Beschleunigungwerte positiv machen und dann Gesamtstrecke durch 2 teilen
+             * 2. Möglichkeit: Nur positive Beschleunigungswerte zu Berechnung verwenden.
+             */
             if(System.currentTimeMillis()>= t) {
-                messwerte.add(hochsprung.getAktuelleHoehe());
-                double a= hochsprung.getAktuelleHoehe();
+                messwerte.add(hochsprung.getAktuelleBeschleunigung());
+                double a = Math.abs(hochsprung.getAktuelleBeschleunigung());
                 x = a*dt*dt+v*dt+x;
                 v = a*dt+v;
                 t = t + step;
             }
 
         }
+
+        x = x/2;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
+        float ergebniss = (float) x;
         x = x * 100;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "cm");
 
         if (hochsprung.getStartMeasure()) {
             Log.d("runnable", "berechne Ergebnis");
             //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
-            float ergebniss = challangeAction.numIntegrationStandard(messwerte);
+            //float ergebniss = challangeAction.numIntegrationStandard(messwerte);
             // next line do not work
-            // float ergebniss = challangeAction.doppeltIntegration(messwerte);
-            Log.d("runnable", "Du bist " + ergebniss + " m hochgesprungen");
-            ergebniss = ergebniss * (float)100.0;
-            Log.d("runnable", "Du bist " + ergebniss + " cm hochgesprungen");
+            float ergebnis2 = 1;//float ergebnis2 = challangeAction.doppeltIntegration(messwerte);
+            Log.d("runnable", "Du bist " + ergebnis2 + " m hochgesprungen");
+            ergebnis2 = ergebnis2 * (float)100.0;
+            Log.d("runnable", "Du bist " + ergebnis2 + " cm hochgesprungen");
             hochsprung.setStartMeasure(false);
             hochsprung.setGemesseneHoeheZentimeter(ergebniss);
             hochsprung.ueberTrageMessergebnis();

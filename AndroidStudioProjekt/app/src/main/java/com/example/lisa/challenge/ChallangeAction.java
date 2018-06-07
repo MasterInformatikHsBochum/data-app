@@ -17,7 +17,7 @@ public class ChallangeAction {
     /**
      * Die Abtastrate, die zum Aufzeichnen und Berechnen von Distanzen verwendet wird.
      */
-    private static final int abtastrate=100;
+    private static final int abtastrate=1000; //Hz
 
 
     /**
@@ -73,7 +73,7 @@ public class ChallangeAction {
 
         for(int i = 0; i < listFlaeche.size(); i++){
             if(i%20 == 0){
-                Log.d("runnable", "listFlaeche " + i + ": " + listFlaeche.get(i));
+                Log.d("runnable", "listFlaeche abs " + i + ": " + Math.abs(listFlaeche.get(i)));
             }
             //if(listFlaeche.get(i)>=0){
                 flaeche = flaeche + Math.abs(listFlaeche.get(i));
@@ -137,8 +137,8 @@ public class ChallangeAction {
     public float berechneBestimmtesIntegralFunktionGradDrei(PolynomGradDrei pn, float t_begin, float t_end){
         float integral = 0;
 
-        integral = pn.getA()*(float)Math.pow(t_begin,3) + pn.getB()*(float)Math.pow(t_begin, 2)
-                 - (pn.getA()*(float)Math.pow(t_end,3) + pn.getB()*(float)Math.pow(t_end, 2));
+        integral = pn.getA()*(float)Math.pow(t_end,3) + pn.getB()*(float)Math.pow(t_end, 2)
+                 - (pn.getA()*(float)Math.pow(t_begin,3) + pn.getB()*(float)Math.pow(t_begin, 2));
 
 
         return integral;

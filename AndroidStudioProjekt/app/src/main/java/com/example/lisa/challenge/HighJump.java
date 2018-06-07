@@ -28,7 +28,7 @@ public class HighJump extends MyNavigation {
     //Gibt an, ob die Aufnahme gestartet worden ist.
     private Boolean startMeasure;
     //Gibt an, ob das Handy sich in der Hosentasche befindet und die Umgebung dunkel ist
-    private Float aktuelleHoehe = 0f;
+    private Float aktuelleBeschleunigung = 0f;
     private Float aktuellerLichwert = 100f;
 
     private Float gemesseneHoeheMillimeter;
@@ -72,7 +72,7 @@ public class HighJump extends MyNavigation {
                 switch (event.sensor.getType()) {
                     //Bewegungssensor Liniar
                     case Sensor.TYPE_LINEAR_ACCELERATION:
-                        aktuelleHoehe = event.values[1];
+                        aktuelleBeschleunigung = event.values[1];
                         break;
                     //Lichsensor
                     case Sensor.TYPE_LIGHT:
@@ -138,8 +138,8 @@ public class HighJump extends MyNavigation {
         deaktivateListener(SensorTyp.ACCELEROMETER);
     }
 
-    public Float getAktuelleHoehe() {
-        return aktuelleHoehe;
+    public Float getAktuelleBeschleunigung() {
+        return aktuelleBeschleunigung;
     }
 
     public Float getAktuellerLichwert() {
