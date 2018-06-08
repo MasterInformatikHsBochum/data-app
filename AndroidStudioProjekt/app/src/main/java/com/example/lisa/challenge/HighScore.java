@@ -105,7 +105,7 @@ public class HighScore {
     public void clear_all(){
         editor.clear();
         HS_1 = 0;
-        HS_2   = 0;
+        HS_2 = 0;
         HS_3 = 0;
 
         WS_1 = 0;
@@ -115,6 +115,7 @@ public class HighScore {
         R_1 = 0;
         R_2 = 0;
         R_3 = 0;
+        editor.apply();
     }
 
 }
