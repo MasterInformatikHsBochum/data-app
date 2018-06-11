@@ -45,6 +45,68 @@ public class ChallangeAction {
         return max- startValue;
     }
 
+    public float doubleIntegrationLinearAccerlaration(List<Float> messwerte){
+
+        int aKleinerMinus0_5 = 0;
+        int indexStart = 0;
+        int indexGroeßtesA = 0;
+        float valueGroeßtesA = -100;
+        for(int i = 0; i <messwerte.size(); i++){
+            if(messwerte.get(i)<-0.5){
+                aKleinerMinus0_5 = i;
+            }
+        }
+        Log.d("runnable","aKleinerMinus0.5: "+ aKleinerMinus0_5 + " beschleunigung: " + messwerte.get(aKleinerMinus0_5));
+
+        for(int i = aKleinerMinus0_5; i < messwerte.size(); i++){
+            Log.d("runnable", "Messwert " + i + ": " + messwerte.get(i));
+            if(messwerte.get(i)>-0.01 && messwerte.get(i)<0.01){
+                indexStart = i;
+            }
+        }
+        //Log.d("runnable","indexStart: "+ indexStart + " beschleunigung: " + messwerte.get(indexStart));
+
+        indexStart = aKleinerMinus0_5;
+        int i = indexStart;
+        while( (i < messwerte.size()-1) && (messwerte.get(i) >= valueGroeßtesA) ){
+
+            indexGroeßtesA = i;
+            valueGroeßtesA = messwerte.get(i);
+            i++;
+        }
+
+        Log.d("runnable","indexGroeßtesA: "+ indexGroeßtesA + " beschleunigung: " + valueGroeßtesA);
+
+        int indexWiederNull = indexGroeßtesA;   //mindestens größer als groeßte
+        i = indexGroeßtesA;
+        while( (i < messwerte.size()-1) && (messwerte.get(i) > 0) ){
+            indexWiederNull = i;
+            i++;
+        }
+
+        LinearFunction linearFunction = makeLinearFunctionOhneB(
+                (float)indexStart/(float)abtastrate, (float)indexGroeßtesA/(float)abtastrate, messwerte.get(indexStart), messwerte.get(indexGroeßtesA));
+
+
+        float t = (float)(indexGroeßtesA - indexStart)/(float)abtastrate;
+        Log.d("runnable","t: "+ t );
+        //float strecke = ((float)1/(float)6)*linearFunction.getM() * (float)Math.pow(t,3);
+
+        float x = 0;
+        float v = 0;
+        float dt =1/(float)abtastrate;
+        Log.d("runnable","dt: "+ dt );
+
+        for(int j = indexStart; j < indexWiederNull; j++){
+            float a = messwerte.get(j);
+            x = a*dt*dt+v*dt+x;
+            v = a*dt+v;
+        }
+
+
+        return x;
+    }
+
     /**
      * Einfache doppelte Rechteckintegration mit einer großen Abweichung
      * (Werte sind deutlich zu klein)
@@ -90,18 +152,19 @@ public class ChallangeAction {
         float periodendauer = (float)1.0/(float)abtastrate;
         List<Float> listFlaeche = new ArrayList<>();
 
-        for(int i = 0; i < messwerte.size(); i++){
-            if(i%20 == 0){
+        for(int i = 0; i < (messwerte.size()-1); i++){
+            //if(i%20 == 0){
+            if(i > 100 && i < 200){
                 Log.d("runnable", "Messwert " + i + ": " + messwerte.get(i));
             }
 
 
             LinearFunction linearFunction = makeLinearFunction(
-                    (float)i/(float)100.0, (float)(i+1)/(float)100.0, messwerte.get(i), messwerte.get(i+1) );
+                    (float)i/(float)abtastrate, (float)(i+1)/(float)abtastrate, messwerte.get(i), messwerte.get(i+1), i );
 
-            PolynomGradDrei polynomGradDrei = berechneDoppeltesUnbestimmtesIntegral(linearFunction);
+            PolynomGradDrei polynomGradDrei = berechneDoppeltesUnbestimmtesIntegral(linearFunction, i);
 
-            float flaeche = berechneBestimmtesIntegralFunktionGradDrei(polynomGradDrei,(float)i/(float)100.0, (float)(i+1)/(float)100.0 );
+            float flaeche = berechneBestimmtesIntegralFunktionGradDrei(polynomGradDrei,(float)i/(float)abtastrate, (float)(i+1)/(float)abtastrate );
 
             listFlaeche.add(flaeche);
 
@@ -114,23 +177,37 @@ public class ChallangeAction {
                 Log.d("runnable", "listFlaeche " + i + ": " + listFlaeche.get(i));
             }
 
-            flaeche = flaeche + Math.abs(listFlaeche.get(i));
+            //flaeche = flaeche + Math.abs(listFlaeche.get(i));
+            flaeche = flaeche + listFlaeche.get(i);
         }
         return flaeche;
     }
 
+    public LinearFunction makeLinearFunctionOhneB(float t1, float t2, float y1, float y2){
+        float m = (y2 - y1) / (t2 - t1);
+        return (new LinearFunction(m,0));
+    }
 
-    public LinearFunction makeLinearFunction(float t1, float t2, float y1, float y2) {
+
+    public LinearFunction makeLinearFunction(float t1, float t2, float y1, float y2, int i) {
         /* define gradient */
         float m = (y2 - y1) / (t2 - t1);
         float b = y1 - m * t1;
+        if(i > 125 && i < 175){
+            Log.d("runnable", "Steigung " + i + ": " + m);
+            Log.d("runnable", "Achsenabschnitt " + i + ": " + b);
+        }
         return (new LinearFunction(m,b));
     }
 
 
-    public PolynomGradDrei berechneDoppeltesUnbestimmtesIntegral(LinearFunction lf){
-        float a = (1/6)*lf.getM();
-        float b = (1/2)*lf.getB();
+    public PolynomGradDrei berechneDoppeltesUnbestimmtesIntegral(LinearFunction lf, int i){
+        float a = ((float)1/(float)6)*lf.getM();
+        float b = ((float)1/(float)2)*lf.getB();
+        if(i > 125 && i < 175){
+            Log.d("runnable", "a vor t^3 " + i + ": " + a);
+            Log.d("runnable", "b vor t^2 " + i + ": " + b);
+        }
         return (new PolynomGradDrei(a,b));
     }
 

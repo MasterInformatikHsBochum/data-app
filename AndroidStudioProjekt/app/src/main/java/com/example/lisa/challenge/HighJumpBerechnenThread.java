@@ -80,16 +80,16 @@ public class HighJumpBerechnenThread extends AsyncTask{
         Log.d("runnable", "Die Ausgangshöhe ist" + hoeheAusgangspunkt);
 
 
-        // Solange es dunkel ist, und maximal 4 Sekunden Werte messen
+        // Solange es dunkel ist, und maximal 3 Sekunden Werte messen
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
         long end = t + 3000;
         long time = System.currentTimeMillis();
-        long step = 1; //ms
+        long step = 1000/challangeAction.getAbtastrate(); //ms (1/f * 1000[ms/s])
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
         float v=0;
         float dt =1/(float)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
-        Log.d("runnable", "dt: " + dt);
+        Log.d("runnable", "dt: " + dt + " & step: " + step);
         float x = 0;
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
 
@@ -100,24 +100,28 @@ public class HighJumpBerechnenThread extends AsyncTask{
              */
             if(System.currentTimeMillis()>= t) {
                 messwerte.add(hochsprung.getAktuelleBeschleunigung());
-                float a = Math.abs(hochsprung.getAktuelleBeschleunigung());
-                x = a*dt*dt+v*dt+x;
-                v = a*dt+v;
+                //float a = Math.abs(hochsprung.getAktuelleBeschleunigung());
+                //x = a*dt*dt+v*dt+x;
+                //v = a*dt+v;
                 t = t + step;
             }
 
         }
-
+    /*
         x = x/2;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
         x = x * 100;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "cm");
-
+    */
         if (hochsprung.getStartMeasure()) {
             Log.d("runnable", "berechne Ergebnis");
             //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
             //float ergebniss = challangeAction.numIntegrationStandard(messwerte);
-
+            //x = challangeAction.doppeltIntegration(messwerte);
+            x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
+            Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
+            x = x * 100;
+            Log.d("runnable", "Die Sprunghöhe beträgt " + x + "cm");
             hochsprung.setStartMeasure(false);
             hochsprung.setGemesseneHoeheZentimeter(x);
             hochsprung.ueberTrageMessergebnis();
