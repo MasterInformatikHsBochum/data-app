@@ -44,7 +44,7 @@ public class HighJump extends MyNavigation {
         setActivity(HighJump.this,R.layout.highjump );
         super.onCreate(savedInstanceState);
         challange = new ChallangeAction();
-        highScore = new HighScore(this);
+        highScore = new HighScore(getSharedPreferences("Challange", Context.MODE_PRIVATE));
         setUpIds();
         cancel.setVisibility(View.GONE);
         start.setVisibility(View.VISIBLE);

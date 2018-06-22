@@ -45,7 +45,7 @@ public class Rotate extends MyNavigation {
         setActivity(Rotate.this, R.layout.rotate);
         super.onCreate(savedInstanceState);
         challange = new ChallangeAction();
-        highScore = new HighScore(this);
+        highScore = new HighScore(getSharedPreferences("Challange", Context.MODE_PRIVATE));
         setUpIds();
         setUpListenerButtons();
         cancel.setVisibility(View.GONE);

@@ -21,8 +21,8 @@ public class HighScore {
     public float R_3;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
-    HighScore(Activity activity){
-        sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    HighScore(SharedPreferences sharedPref){
+        this.sharedPref = sharedPref;
         editor = sharedPref.edit();
         HS_1 = sharedPref.getFloat("HS_1",0);
         HS_2 = sharedPref.getFloat("HS_2",0);

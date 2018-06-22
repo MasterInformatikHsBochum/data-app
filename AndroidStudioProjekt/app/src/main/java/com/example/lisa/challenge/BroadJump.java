@@ -1,5 +1,6 @@
 package com.example.lisa.challenge;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +22,7 @@ public class BroadJump extends MyNavigation {
         setActivity(BroadJump.this, R.layout.broadjump);
         super.onCreate(savedInstanceState);
         challange = new ChallangeAction();
-        highScore = new HighScore(this);
+        highScore = new HighScore(getSharedPreferences("Challange", Context.MODE_PRIVATE));
         setUpIds();
         setUpListenerButtons();
     }
