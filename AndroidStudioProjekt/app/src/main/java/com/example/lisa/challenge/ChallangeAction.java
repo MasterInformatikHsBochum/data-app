@@ -64,7 +64,7 @@ public class ChallangeAction {
                 indexStart = i;
             }
         }
-        //Log.d("runnable","indexStart: "+ indexStart + " beschleunigung: " + messwerte.get(indexStart));
+
 
         indexStart = aKleinerMinus0_5;
         int i = indexStart;

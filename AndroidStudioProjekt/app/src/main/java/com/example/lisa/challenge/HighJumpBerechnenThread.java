@@ -80,7 +80,8 @@ public class HighJumpBerechnenThread extends AsyncTask{
         Log.d("runnable", "Die Ausgangshöhe ist" + hoeheAusgangspunkt);
 
 
-        // Solange es dunkel ist, und maximal 3 Sekunden Werte messen
+
+
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
         long end = t + 3000;
