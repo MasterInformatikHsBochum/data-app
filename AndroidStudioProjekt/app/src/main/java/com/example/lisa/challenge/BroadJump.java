@@ -20,16 +20,9 @@ public class BroadJump extends MyNavigation {
     }
 
     private void setUpListenerButtons() {
-        navigateToMainMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mainActivityPage = new Intent(BroadJump.this, MainActivity.class);
-                startActivity(mainActivityPage);
-            }
-        });
+
     }
 
     private void setUpIds() {
-        navigateToMainMenu = findViewById(R.id.buttonNavigateFromBroadJumpToMain);
     }
 }
