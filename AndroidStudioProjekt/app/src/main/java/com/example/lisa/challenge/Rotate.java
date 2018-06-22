@@ -192,7 +192,7 @@ public class Rotate extends MyNavigation {
                 highScore.new_R_score(anzahlDrehungen);
                 //Lade die existierenden Werte aus der Datenbank. Wurden noch keine Werte definiert, wird standardmäßig 0 eingetragen
                 float[] r_score = highScore.get_R_score();
-                highscoreText.setText(challange.createHiscoreString(r_score[0],r_score[1],r_score[2], "Drehungen"));
+                highscoreText.setText(challange.createHiscoreString((int)r_score[0],(int)r_score[1],(int)r_score[2], "Drehungen"));
                 messungBeenden();
             }
         });
