@@ -23,6 +23,8 @@ public class Rotate extends MyNavigation {
     Button start;
     Button cancel;
     TextView result;
+    TextView highscoreText;
+    HighScore highScore;
 
     //Gibt an, ob die Aufnahme gestartet worden ist.
     private Boolean startMeasure;
@@ -43,6 +45,7 @@ public class Rotate extends MyNavigation {
         setActivity(Rotate.this, R.layout.rotate);
         super.onCreate(savedInstanceState);
         challange = new ChallangeAction();
+        highScore = new HighScore(this);
         setUpIds();
         setUpListenerButtons();
         cancel.setVisibility(View.GONE);
@@ -161,7 +164,14 @@ public class Rotate extends MyNavigation {
         start = findViewById(R.id.buttonStartRotateJump);
         cancel = findViewById(R.id.buttonCancelRotateJump);
         result = findViewById(R.id.textResultRotate);
+        highscoreText = findViewById(R.id.highscoreRotate);
+        //Lade die existierenden Werte aus der Datenbank. Wurden noch keine Werte definiert, wird standardmäßig 0 eingetragen
+        float[] r_score = highScore.get_R_score();
+        highscoreText.setText(challange.createHiscoreString((int)r_score[0],(int)r_score[1],(int)r_score[2],"Drehungen"));
+
     }
+
+
 
     private void actionRotate() {
 
@@ -179,6 +189,10 @@ public class Rotate extends MyNavigation {
             public void run() {
                 // result.setText("Du bist " + getErgebnisGradzahl() + "mm hoch gesprungen");
                 result.setText("Du hast dich um " + ergebnisGradzahl + "Grad gedreht. Das sind " + anzahlDrehungen + " Drehungen");
+                highScore.new_R_score(anzahlDrehungen);
+                //Lade die existierenden Werte aus der Datenbank. Wurden noch keine Werte definiert, wird standardmäßig 0 eingetragen
+                float[] r_score = highScore.get_R_score();
+                highscoreText.setText(challange.createHiscoreString(r_score[0],r_score[1],r_score[2], "Drehungen"));
                 messungBeenden();
             }
         });
