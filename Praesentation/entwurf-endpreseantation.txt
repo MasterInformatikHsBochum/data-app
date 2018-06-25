@@ -1,0 +1,31 @@
+Folie 1
+Highscore Funktion
+Folie 2
+Highscore Funktionsweise
+Technische Details
+Folie 3
+Neue Challenge Geschwindikeit bei Rennen vergleichen.
+-> wegen Problemen bei der Berechnung.
+Folie 4
+Numerisches Integral
+Folie 5
+SimpsonRegel
+Folie 6
+Implementierung der Simpsonregel
+Folie 7
+Beispiel der Berechnungen des Weges
+Beispiel für Messwerte des Sensors
+Folie 8
+Live Demo
+Folie 9
+Fazit
+Berechnungen deutlisch Schwieriger als gedacht
+App Entwicklung für Android Benutzerfreundlich
+Folie 10
+Ausblick
+Erweiterung von Challenges 
+Challenges die Einfach realisierbar sind
+In App Käufe einbauen
+Folie 11
+Berechnungen überabeiten bzw. die Realisierbatkeit von
+den bestehenden Prüfen.
