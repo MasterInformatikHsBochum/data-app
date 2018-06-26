@@ -1,15 +1,27 @@
 Folie 1
 Highscore Funktion
+Persönlicher Highscore für alle Challenges.
+Die Besten 3 Ergebnisse werden im Highscore gespeichert.
+Der Highscore wird im jeweiligen Challenge im Fenster angezeigt.
 Folie 2
 Highscore Funktionsweise
-Technische Details
+SharedPreferences Klasse ermöglicht abspeichern von Daten ohne Filezugriff
+Diese Daten persisten in der App gespeichert und bleiben auch nach dem Löschen.
+Daten werden in einer XML Datei Gespeichert.
 Folie 3
 Neue Challenge Geschwindikeit bei Rennen vergleichen.
--> wegen Problemen bei der Berechnung.
+-> wegen nicht gelösten Problemen bei der Berechnung.
 Folie 4
 Numerisches Integral
+Integral einführen.
+Bei Algebraischer Berechnung ist die Funktion bekannt.
+Daher kann eine Stammfunktion gebildet werden.
+Bei Numerischen Integralen kann die Funktion unbekannt sein.
 Folie 5
 SimpsonRegel
+Für diese Werte wird angenommen das sie von einer PolynomFunktion stammen.
+Für die Simpsonregel wird das Integral mit dem Integral einer Parabel angenähert.
+(Polynom 2ten Grades)
 Folie 6
 Implementierung der Simpsonregel
 Folie 7
