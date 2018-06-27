@@ -108,6 +108,7 @@ public class HighJumpBerechnenThread extends AsyncTask{
             }
 
         }
+        List<Float> messwerte_glat= daten_gleatten(messwerte,11);
     /*
         x = x/2;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
@@ -130,6 +131,17 @@ public class HighJumpBerechnenThread extends AsyncTask{
         }
 
         return null;
+    }
+    public List<Float>daten_gleatten(List<Float> messwerte, int anzahlelemente) {
+        List<Float> messwerte_glat = new ArrayList<>();
+        for (int i = 0; i < messwerte.size()-anzahlelemente; i += anzahlelemente) {
+            float sum = 0;
+            for (float messwert : messwerte.subList(i, i + (anzahlelemente-1))) {
+                sum += messwert;
+            }
+            messwerte_glat.add(sum / messwerte.subList(i, i + (anzahlelemente-1)).size());
+        }
+        return messwerte_glat;
     }
 
 
