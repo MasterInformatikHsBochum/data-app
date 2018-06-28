@@ -119,6 +119,7 @@ public class HighJumpBerechnenThread extends AsyncTask{
             //float ergebniss = challangeAction.numIntegrationStandard(messwerte);
             //x = challangeAction.doppeltIntegration(messwerte);
             x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
+            //x = challangeAction.wegMitDurschnittsberechnung(messwerte);
             Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
             x = x * 100;
             Log.d("runnable", "Die Sprunghöhe beträgt " + x + "cm");
