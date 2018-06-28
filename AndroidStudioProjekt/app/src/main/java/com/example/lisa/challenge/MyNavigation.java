@@ -74,9 +74,8 @@ public abstract class MyNavigation extends AppCompatActivity implements Navigati
 
             //noinspection SimplifiableIfStatement
             if (id == R.id.action_settings) {
-                //TODO einfuegen was passieren soll wenn settings gedrueckt werden.
-                //Seite mit Namenseingabe?
-                return true;
+                Intent settingsPage = new Intent(activity, Settings.class);
+                startActivity(settingsPage);
             }
 
             return super.onOptionsItemSelected(item);

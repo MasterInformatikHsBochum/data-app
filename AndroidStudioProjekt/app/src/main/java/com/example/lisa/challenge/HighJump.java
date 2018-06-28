@@ -24,6 +24,8 @@ public class HighJump extends MyNavigation {
     Button start;
     Button cancel;
     TextView result;
+    TextView highscoreText;
+    HighScore highScore;
 
     //Gibt an, ob die Aufnahme gestartet worden ist.
     private Boolean startMeasure;
@@ -42,6 +44,7 @@ public class HighJump extends MyNavigation {
         setActivity(HighJump.this,R.layout.highjump );
         super.onCreate(savedInstanceState);
         challange = new ChallangeAction();
+        highScore = new HighScore(getSharedPreferences("Challange", Context.MODE_PRIVATE));
         setUpIds();
         cancel.setVisibility(View.GONE);
         start.setVisibility(View.VISIBLE);
@@ -107,6 +110,10 @@ public class HighJump extends MyNavigation {
         start = findViewById(R.id.buttonStartHighJump);
         cancel = findViewById(R.id.buttonCancelHighJump);
         result = findViewById(R.id.textResult);
+        highscoreText = findViewById(R.id.highscoreHighjump);
+        //Lade die existierenden Werte aus der Datenbank. Wurden noch keine Werte definiert, wird standardmäßig 0 eingetragen
+        float[] h_score = highScore.get_HS_score();
+        highscoreText.setText(challange.createHiscoreString(h_score[0],h_score[1],h_score[2],"cm"));
     }
 
     private void actionHighJump() {
@@ -124,6 +131,10 @@ public class HighJump extends MyNavigation {
             public void run() {
                 // result.setText("Du bist " + getGemesseneHoeheMillimeter() + "mm hoch gesprungen");
                 result.setText("Du bist " + getGemesseneHoeheZentimeter() + "cm hoch gesprungen");
+                highScore.new_HS_score(getGemesseneHoeheZentimeter());
+                //Lade die existierenden Werte aus der Datenbank. Wurden noch keine Werte definiert, wird standardmäßig 0 eingetragen
+                float[] h_score = highScore.get_HS_score();
+                highscoreText.setText(challange.createHiscoreString(h_score[0],h_score[1],h_score[2],"cm"));
                 messungBeenden();
             }
         });
