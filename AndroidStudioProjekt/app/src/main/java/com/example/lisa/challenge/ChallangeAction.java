@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
 
+import java.util.LinkedList;
+import java.util.Vector;
 
 public class ChallangeAction {
 
@@ -41,7 +43,43 @@ public class ChallangeAction {
         return max - startValue;
     }
 
+
+    public double simpsonrule_weg(LinkedList<Vector<Double>> messwerte){
+        double sum = 0;
+        int n = messwerte.size();
+        for (int i =0; i < n-2;i++){
+            sum += (messwerte.get(i+1).get(1)-messwerte.get(i).get(1))*(messwerte.get(i).get(0)+4*messwerte.get(i+1).get(0)+messwerte.get(i+2).get(0));
+        }
+        return (1/6.0)*sum;
+    }
+
+    public double simpsonrule_final(List<Float> messwerte, float dt) {
+        LinkedList<Vector<Double>> mess_final = new LinkedList<Vector<Double>>();
+        for (int i = 0; i < messwerte.size(); i++) {
+            Vector<Double> vec = new Vector<>();
+            vec.add((double) messwerte.get(i));
+            vec.add((double) i * dt);
+            mess_final.add(vec);
+        }
+        return simpsonrule_weg(mess_final);
+    }
+
+    public float wegMitDurschnittsberechnung(List<Float> messwerte){
+
+        float summe = 0;
+
+        for (int i = 0; i < messwerte.size(); i++){
+            summe += messwerte.get(i);
+        }
+
+        float average = summe/messwerte.size();
+
+        return (average * 3 * 3);
+    }
+
+
     public float doubleIntegrationLinearAccerlaration(List<Float> messwerte) {
+
 
         int aKleinerMinus0_5 = 0;
         int indexStart = 0;
