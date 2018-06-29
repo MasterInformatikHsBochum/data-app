@@ -7,10 +7,15 @@ import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.lang.Math;
+import java.io.File;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+import android.widget.Toast;
 
 public class HighJumpBerechnenThread extends AsyncTask{
 
@@ -108,6 +113,17 @@ public class HighJumpBerechnenThread extends AsyncTask{
             }
 
         }
+
+        /*
+         * Messwerte in Textdatei abspeichern
+         */
+        speichereMesswerte(messwerte);
+
+
+
+
+
+
         List<Float> messwerte_glat= daten_gleatten(messwerte,11);
     /*
         x = x/2;
@@ -120,7 +136,7 @@ public class HighJumpBerechnenThread extends AsyncTask{
             //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
             //float ergebniss = challangeAction.numIntegrationStandard(messwerte);
             //x = challangeAction.doppeltIntegration(messwerte);
-            x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
+            //---> x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
             //x = challangeAction.wegMitDurschnittsberechnung(messwerte);
             Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
             x = x * 100;
@@ -145,5 +161,37 @@ public class HighJumpBerechnenThread extends AsyncTask{
         return messwerte_glat;
     }
 
+
+    /*
+     * Messwerte in Textdatei abspeichern
+     */
+    public void speichereMesswerte(List<Float> messwerte){
+
+        String strMesswerte = "";
+        for(float zahl: messwerte){
+            strMesswerte = strMesswerte + zahl + "\n";
+        }
+
+        try {
+            File myFile = new File("/sdcard/messwerte.txt");
+            myFile.mkdirs();
+            myFile.createNewFile();
+            Log.d("runnable", "Datei wurde erstellt");
+            FileOutputStream fOut = new FileOutputStream(myFile);
+            OutputStreamWriter myOutWriter =
+                    new OutputStreamWriter(fOut);
+            myOutWriter.append(strMesswerte);
+
+            myOutWriter.close();
+            fOut.close();
+            Log.d("runnable", "wurde drangehangen");
+        }catch(IOException ioe){
+            Log.d("runnable", "hat nicht geklappt");
+            Log.d("runnable", ioe.getMessage());
+        }
+
+
+
+    }
 
 }

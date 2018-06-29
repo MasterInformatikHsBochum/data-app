@@ -19,7 +19,7 @@ public class ChallangeAction {
     /**
      * Die Abtastrate, die zum Aufzeichnen und Berechnen von Distanzen verwendet wird.
      */
-    private static final int abtastrate = 1000; //Hz
+    private static final int abtastrate = 100; //Hz
 
 
     /**
