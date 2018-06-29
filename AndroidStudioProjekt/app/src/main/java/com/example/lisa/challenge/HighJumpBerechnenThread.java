@@ -102,7 +102,7 @@ public class HighJumpBerechnenThread extends AsyncTask {
             }
 
         }
-        List<Float> messwerte_glat = daten_gleatten(messwerte, 11);
+        List<Float> messwerte_glat = moving_average(messwerte, 11);
     /*
         x = x/2;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
