@@ -17,25 +17,22 @@ import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
 import android.widget.Toast;
 
-public class HighJumpBerechnenThread extends AsyncTask{
+public class HighJumpBerechnenThread extends AsyncTask {
 
     private HighJump hochsprung;
     ChallangeAction challangeAction;
 
 
-
-    public HighJumpBerechnenThread(HighJump hochsprung, ChallangeAction challangeAction)
-    {
-        this.hochsprung=hochsprung;
-        this.challangeAction =challangeAction;
+    public HighJumpBerechnenThread(HighJump hochsprung, ChallangeAction challangeAction) {
+        this.hochsprung = hochsprung;
+        this.challangeAction = challangeAction;
     }
 
     /**
-     *  Warte so lange bis das Smartphone in der Hosentasche ist und die Messung läuft
+     * Warte so lange bis das Smartphone in der Hosentasche ist und die Messung läuft
      */
-    private void waitToBeDark()
-    {
-        while (!challangeAction.isDark(hochsprung.getAktuellerLichwert())&& hochsprung.getStartMeasure()) {
+    private void waitToBeDark() {
+        while (!challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure()) {
 
             try {
                 Log.d("runnable", "Warte das Handy in die Hosentesche gesteckt wird. Aktueller Lichtewert = " + hochsprung.getAktuellerLichwert());
@@ -67,7 +64,6 @@ public class HighJumpBerechnenThread extends AsyncTask{
     }
 
 
-
     @Override
     protected Object doInBackground(Object[] objects) {
 
@@ -85,16 +81,14 @@ public class HighJumpBerechnenThread extends AsyncTask{
         Log.d("runnable", "Die Ausgangshöhe ist" + hoeheAusgangspunkt);
 
 
-
-
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
         long end = t + 3000;
         long time = System.currentTimeMillis();
-        long step = 1000/challangeAction.getAbtastrate(); //ms (1/f * 1000[ms/s])
+        long step = 1000 / challangeAction.getAbtastrate(); //ms (1/f * 1000[ms/s])
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
-        float v=0;
-        float dt =1/(float)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
+        float v = 0;
+        float dt = 1 / (float) challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
         Log.d("runnable", "dt: " + dt + " & step: " + step);
         float x = 0;
         while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
@@ -104,7 +98,7 @@ public class HighJumpBerechnenThread extends AsyncTask{
              * 1. Möglichkeit: Alle Beschleunigungwerte positiv machen und dann Gesamtstrecke durch 2 teilen
              * 2. Möglichkeit: Nur positive Beschleunigungswerte zu Berechnung verwenden.
              */
-            if(System.currentTimeMillis()>= t) {
+            if (System.currentTimeMillis() >= t) {
                 messwerte.add(hochsprung.getAktuelleBeschleunigung());
                 //float a = Math.abs(hochsprung.getAktuelleBeschleunigung());
                 //x = a*dt*dt+v*dt+x;
@@ -114,17 +108,15 @@ public class HighJumpBerechnenThread extends AsyncTask{
 
         }
 
+
         /*
          * Messwerte in Textdatei abspeichern
          */
         speichereMesswerte(messwerte);
 
 
+        List<Float> messwerte_glat = moving_average(messwerte, 11);
 
-
-
-
-        List<Float> messwerte_glat= daten_gleatten(messwerte,11);
     /*
         x = x/2;
         Log.d("runnable", "Die Sprunghöhe beträgt " + x + "m");
@@ -149,18 +141,26 @@ public class HighJumpBerechnenThread extends AsyncTask{
 
         return null;
     }
-    public List<Float>daten_gleatten(List<Float> messwerte, int anzahlelemente) {
-        List<Float> messwerte_glat = new ArrayList<>();
-        for (int i = 0; i < messwerte.size()-anzahlelemente; i += anzahlelemente) {
-            float sum = 0;
-            for (float messwert : messwerte.subList(i, i + (anzahlelemente-1))) {
-                sum += messwert;
-            }
-            messwerte_glat.add(sum / messwerte.subList(i, i + (anzahlelemente-1)).size());
-        }
-        return messwerte_glat;
-    }
 
+    public List<Float> moving_average(List<Float> messwerte, int anzahlelemente) {
+        List<Float> messwerte_glat = new ArrayList<>();
+        List<Float> messwerte_subslist = messwerte.subList(0,anzahlelemente-1);
+        for (int i = anzahlelemente; i < messwerte.size()-1 ; i++) {
+            messwerte_glat.add(berechneduchschnitt(messwerte_subslist));
+            messwerte_subslist.remove(0);
+            messwerte_subslist.add(messwerte.get(i));
+            }
+        return messwerte_glat;
+        }
+
+    public float berechneduchschnitt(List<Float> messwerte) {
+        float sum = 0;
+        for (int i = 0; i < messwerte.size(); i++) {
+            sum += messwerte.get(i);
+        }
+        return sum/messwerte.size();
+
+    }
 
     /*
      * Messwerte in Textdatei abspeichern
@@ -193,5 +193,8 @@ public class HighJumpBerechnenThread extends AsyncTask{
 
 
     }
+
+
+
 
 }
