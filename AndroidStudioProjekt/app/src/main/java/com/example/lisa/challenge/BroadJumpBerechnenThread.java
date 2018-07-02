@@ -1,44 +1,36 @@
 package com.example.lisa.challenge;
 
-import android.app.Activity;
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
-import android.content.Context;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.lang.Math;
-import java.io.File;
-import java.io.OutputStreamWriter;
-import java.io.FileOutputStream;
-import android.widget.Toast;
 
-public class HighJumpBerechnenThread extends AsyncTask {
+public class BroadJumpBerechnenThread extends AsyncTask {
 
-    private HighJump hochsprung;
+    private BroadJump weitsprung;
     ChallangeAction challangeAction;
 
 
-    public HighJumpBerechnenThread(HighJump hochsprung, ChallangeAction challangeAction) {
-        this.hochsprung = hochsprung;
-        this.challangeAction = challangeAction;
+
+    public BroadJumpBerechnenThread(BroadJump weitsprung, ChallangeAction challangeAction)
+    {
+        this.weitsprung=weitsprung;
+        this.challangeAction =challangeAction;
     }
 
     /**
-     * Warte so lange bis das Smartphone in der Hosentasche ist und die Messung läuft
+     *  Warte so lange bis das Smartphone in der Hosentasche ist und die Messung läuft
      */
-    private void waitToBeDark() {
-        while (!challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure()) {
+    private void waitToBeDark()
+    {
+        while (!challangeAction.isDark(weitsprung.getAktuellerLichwert())&& weitsprung.getStartMeasure()) {
 
             try {
-                Log.d("runnable", "Warte das Handy in die Hosentesche gesteckt wird. Aktueller Lichtewert = " + hochsprung.getAktuellerLichwert());
+                Log.d("runnable", "Warte das Handy in die Hosentesche gesteckt wird. Aktueller Lichtewert = " + weitsprung.getAktuellerLichwert());
                 TimeUnit.SECONDS.sleep(1);
 
 
@@ -46,7 +38,7 @@ public class HighJumpBerechnenThread extends AsyncTask {
                 e.printStackTrace();
             }
         }
-        Log.d("runnable", " >>>>> Aktueller Lichtewert = " + hochsprung.getAktuellerLichwert());
+        Log.d("runnable", " >>>>> Aktueller Lichtewert = " + weitsprung.getAktuellerLichwert());
     }
 
     /**
@@ -63,8 +55,9 @@ public class HighJumpBerechnenThread extends AsyncTask {
         }
         sound.startTone(ToneGenerator.TONE_PROP_BEEP, 2000);
         Log.d("beep", "beep");
-        hochsprung.beep();
+        weitsprung.beep();
     }
+
 
 
     @Override
@@ -73,69 +66,70 @@ public class HighJumpBerechnenThread extends AsyncTask {
         waitToBeDark();
 
         //Die Messung wurde abgebrochen
-        if (hochsprung.getStartMeasure() == false) {
+        if (weitsprung.getStartMeasure() == false) {
             return null;
         }
 
         generateTone();
 
         //Bestimme die Bezugshöhe von der die Person abspringt
-        float hoeheAusgangspunkt = hochsprung.getAktuelleBeschleunigung();
+        float hoeheAusgangspunkt = weitsprung.getAktuelleBeschleunigung();
         Log.d("runnable", "Die Ausgangshöhe ist" + hoeheAusgangspunkt);
 
 
+        // Solange es dunkel ist, und maximal 3 Sekunden Werte messen
         List<Float> messwerte = new ArrayList<>();
         long t = System.currentTimeMillis();
         long end = t + 3000;
         long time = System.currentTimeMillis();
-        long step = 1000 / challangeAction.getAbtastrate(); //ms (1/f * 1000[ms/s])
+        long step = 1000/challangeAction.getAbtastrate(); //ms (1/f * 1000[ms/s])
         Log.d("runnalbe", "starte Aufzeichnung der Werte");
-        float v = 0;
-        float dt = 1 / (float) challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
+        float v=0;
+        float dt =1/(float)challangeAction.getAbtastrate(); // Hundert Werte Pro sekunde
         Log.d("runnable", "dt: " + dt + " & step: " + step);
         float x = 0;
-        while (challangeAction.isDark(hochsprung.getAktuellerLichwert()) && hochsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
+        while (challangeAction.isDark(weitsprung.getAktuellerLichwert()) && weitsprung.getStartMeasure() && (System.currentTimeMillis() < end)) {
 
 
             /*
              * 1. Möglichkeit: Alle Beschleunigungwerte positiv machen und dann Gesamtstrecke durch 2 teilen
              * 2. Möglichkeit: Nur positive Beschleunigungswerte zu Berechnung verwenden.
              */
-            if (System.currentTimeMillis() >= t) {
-                messwerte.add(hochsprung.getAktuelleBeschleunigung());
-                //float a = Math.abs(hochsprung.getAktuelleBeschleunigung());
+            if(System.currentTimeMillis()>= t) {
+                messwerte.add(weitsprung.getAktuelleBeschleunigung());
+                //float a = Math.abs(weitsprung.getAktuelleBeschleunigung());
                 //x = a*dt*dt+v*dt+x;
                 //v = a*dt+v;
                 t = t + step;
             }
 
         }
-
-
-        /*
-         * Messwerte in Textdatei abspeichern
-         * Zugriff wird verweigert
-         */
-        //speichereMesswerte(messwerte);
-
+        int i = 0;
+        for(float zahl: messwerte) {
+            //Log.d("runnable", /*"RohDaten " + (++i) + ": " + */""+zahl);
+        }
 
         List<Float> messwerte_glat = moving_average(messwerte, 9);
+        i = 0;
+        Log.d("runnable", "geglättet --------------------------------------> ");
+        for(float zahl: messwerte_glat) {
+            //Log.d("runnable", /*"geglättet " + (++i) + ": " +*/ ""+zahl);
+        }
 
-
-        if (hochsprung.getStartMeasure()) {
+        if (weitsprung.getStartMeasure()) {
             Log.d("runnable", "berechne Ergebnis");
             //float ergebniss = challangeAction.getDiffenenzOfStartValueAndMax(hoeheAusgangspunkt, messwerte);
             //float ergebniss = challangeAction.numIntegrationStandard(messwerte);
             //x = challangeAction.doppeltIntegration(messwerte);
-            //---> x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
+            //x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
             //x = challangeAction.wegMitDurschnittsberechnung(messwerte);
-            x = (float) challangeAction.simpsonrule_final(messwerte, dt, "modusHighJump");
+            x = (float) challangeAction.simpsonrule_final(messwerte, dt, "modusBroadJump");
             Log.d("runnable", "Die Geschwindigkeit beträgt " + x + "m/s");
             x = x * 100;
 
-            hochsprung.setStartMeasure(false);
-            hochsprung.setGemesseneHoechstGeschwindigkeitCmProS(x);
-            hochsprung.ueberTrageMessergebnis();
+            weitsprung.setStartMeasure(false);
+            weitsprung.setGemesseneHoechstGeschwindigkeitCmProS(x);
+            weitsprung.ueberTrageMessergebnis();
             return x;
         }
 
@@ -149,9 +143,9 @@ public class HighJumpBerechnenThread extends AsyncTask {
             messwerte_glat.add(berechneduchschnitt(messwerte_subslist));
             messwerte_subslist.remove(0);
             messwerte_subslist.add(messwerte.get(i));
-            }
-        return messwerte_glat;
         }
+        return messwerte_glat;
+    }
 
     public float berechneduchschnitt(List<Float> messwerte) {
         float sum = 0;
@@ -161,40 +155,5 @@ public class HighJumpBerechnenThread extends AsyncTask {
         return sum/messwerte.size();
 
     }
-
-    /*
-     * Messwerte in Textdatei abspeichern
-     */
-    public void speichereMesswerte(List<Float> messwerte){
-
-        String strMesswerte = "";
-        for(float zahl: messwerte){
-            strMesswerte = strMesswerte + zahl + "\n";
-        }
-
-        try {
-            File myFile = new File("/sdcard/messwerte.txt");
-            myFile.mkdirs();
-            myFile.createNewFile();
-            Log.d("runnable", "Datei wurde erstellt");
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter =
-                    new OutputStreamWriter(fOut);
-            myOutWriter.append(strMesswerte);
-
-            myOutWriter.close();
-            fOut.close();
-            Log.d("runnable", "wurde drangehangen");
-        }catch(IOException ioe){
-            Log.d("runnable", "hat nicht geklappt");
-            Log.d("runnable", ioe.getMessage());
-        }
-
-
-
-    }
-
-
-
 
 }
