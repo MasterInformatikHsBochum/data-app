@@ -19,7 +19,7 @@ public class ChallangeAction {
     /**
      * Die Abtastrate, die zum Aufzeichnen und Berechnen von Distanzen verwendet wird.
      */
-    private static final int abtastrate = 1000; //Hz
+    private static final int abtastrate = 100; //Hz
 
 
     /**
@@ -53,14 +53,53 @@ public class ChallangeAction {
         return (1/6.0)*sum;
     }
 
-    public double simpsonrule_final(List<Float> messwerte, float dt) {
+    public double simpsonrule_final(List<Float> messwerte, float dt, String modus) {
         LinkedList<Vector<Double>> mess_final = new LinkedList<Vector<Double>>();
-        for (int i = 0; i < messwerte.size(); i++) {
-            Vector<Double> vec = new Vector<>();
-            vec.add((double) messwerte.get(i));
-            vec.add((double) i * dt);
-            mess_final.add(vec);
+        //for (int i = 0; i < messwerte.size(); i++) {
+
+        if(modus.equals("modusHighJump")){
+
+            int indexMin = 0;
+            float min = Float.MAX_VALUE;
+            for(int i = 0; i < messwerte.size(); i++){
+                if(messwerte.get(i)<min){
+                    min = messwerte.get(i);
+                    indexMin = i;
+                }
+            }
+            Log.d("runnable", "indexKleinste: " + indexMin + " beschleunigung: " + messwerte.get(indexMin));
+
+            int indexEnd = 0;
+            for(int i = indexMin; i >=0; i--){
+                if(messwerte.get(i)> -0.01){
+                    indexEnd = i;
+                    break;
+                }
+            }
+            Log.d("runnable", "indexEnde: " + indexEnd + " beschleunigung: " + messwerte.get(indexEnd));
+
+            int indexStart = 0;
+            while(indexStart < indexEnd){
+                Vector<Double> vec = new Vector<>();
+                vec.add((double) messwerte.get(indexStart));
+                vec.add((double) indexStart * dt);
+                mess_final.add(vec);
+                indexStart++;
+            }
+            Log.d("runnable", "Anzahl Messwerte Hochsprung: " + mess_final.size());
+
+        }else{
+            int i = 0;
+            while(messwerte.get(i) > -0.3){
+                Vector<Double> vec = new Vector<>();
+                vec.add((double) messwerte.get(i));
+                vec.add((double) i * dt);
+                mess_final.add(vec);
+                i++;
+            }
+            Log.d("runnable", "Anzahl Messwerte Weitsprung: " + mess_final.size());
         }
+
         return simpsonrule_weg(mess_final);
     }
 
