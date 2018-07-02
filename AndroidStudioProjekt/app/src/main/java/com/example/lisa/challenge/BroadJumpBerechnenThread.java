@@ -123,7 +123,7 @@ public class BroadJumpBerechnenThread extends AsyncTask {
             //x = challangeAction.doppeltIntegration(messwerte);
             //x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
             //x = challangeAction.wegMitDurschnittsberechnung(messwerte);
-            x = (float) challangeAction.simpsonrule_final(messwerte, dt, "modusBroadJump");
+            x = (float) challangeAction.simpsonrule_final(messwerte, dt);
             Log.d("runnable", "Die Geschwindigkeit beträgt " + x + "m/s");
             x = x * 100;
 

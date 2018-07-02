@@ -26,7 +26,7 @@ public class ChallangeAction {
      * Wenn der Lichtwert unter 10 ist (es ist Dunkel) wird true zurückgegeben, sonst false
      */
     public boolean isDark(float aktuellerLichtwert) {
-        return aktuellerLichtwert < 80 ? true : false;
+        return aktuellerLichtwert < 10 ? true : false;
     }
 
     public float getDiffenenzOfStartValueAndMax(float startValue, List<Float> messwerte) {
@@ -53,53 +53,48 @@ public class ChallangeAction {
         return (1/6.0)*sum;
     }
 
-    public double simpsonrule_final(List<Float> messwerte, float dt, String modus) {
+    public double simpsonrule_final(List<Float> messwerte, float dt) {
         LinkedList<Vector<Double>> mess_final = new LinkedList<Vector<Double>>();
-        //for (int i = 0; i < messwerte.size(); i++) {
 
-        if(modus.equals("modusHighJump")){
+        /*
+         * Berechne die Fläche unter der positiven Halbwelle
+         */
 
-            int indexMin = 0;
-            float min = Float.MAX_VALUE;
-            for(int i = 0; i < messwerte.size(); i++){
-                if(messwerte.get(i)<min){
-                    min = messwerte.get(i);
-                    indexMin = i;
-                }
+        /* Finde den Index des größten Beschleunigungswerts */
+        int indexMax = 0;
+        float max = Float.MIN_VALUE;
+        for (int i = 0; i < messwerte.size(); i++) {
+            if (messwerte.get(i) > max) {
+                max = messwerte.get(i);
+                indexMax = i;
             }
-            Log.d("runnable", "indexKleinste: " + indexMin + " beschleunigung: " + messwerte.get(indexMin));
-
-            int indexEnd = 0;
-            for(int i = indexMin; i >=0; i--){
-                if(messwerte.get(i)> -0.01){
-                    indexEnd = i;
-                    break;
-                }
-            }
-            Log.d("runnable", "indexEnde: " + indexEnd + " beschleunigung: " + messwerte.get(indexEnd));
-
-            int indexStart = 0;
-            while(indexStart < indexEnd){
-                Vector<Double> vec = new Vector<>();
-                vec.add((double) messwerte.get(indexStart));
-                vec.add((double) indexStart * dt);
-                mess_final.add(vec);
-                indexStart++;
-            }
-            Log.d("runnable", "Anzahl Messwerte Hochsprung: " + mess_final.size());
-
-        }else{
-            int i = 0;
-            while(messwerte.get(i) > -0.3){
-                Vector<Double> vec = new Vector<>();
-                vec.add((double) messwerte.get(i));
-                vec.add((double) i * dt);
-                mess_final.add(vec);
-                i++;
-            }
-            Log.d("runnable", "Anzahl Messwerte Weitsprung: " + mess_final.size());
+            //Log.d("runnable", "Messwert " + i + ": " + messwerte.get(i));
         }
 
+        /* Finde den Anfang der positiven Halbwelle */
+        int indexStart = 0;
+        for (int i = indexMax; messwerte.get(i)>= 0; i--) {
+            indexStart = i;
+        }
+        Log.d("runnable", "indexStart: " + indexStart + " beschleunigung: " + messwerte.get(indexStart));
+
+
+        /* Finde das Ende der postiven Halbwelle */
+        int indexEnd = 0;
+        for (int i = indexMax; messwerte.get(i)>= 0; i++) {
+            indexEnd = i;
+        }
+        Log.d("runnable", "indexEnde: " + indexEnd + " beschleunigung: " + messwerte.get(indexEnd));
+
+        /* Tu nur die Messwerte der positiven Halbwelle in einen Vektor und berechne die Fläche darunter */
+        int i = indexStart;
+        while(i<=indexEnd) {
+            Vector<Double> vec = new Vector<>();
+            vec.add((double) messwerte.get(i));
+            vec.add((double) i * dt);
+            mess_final.add(vec);
+            i++;
+        }
         return simpsonrule_weg(mess_final);
     }
 
