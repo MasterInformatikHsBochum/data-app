@@ -120,18 +120,18 @@ public class HighJumpBerechnenThread extends AsyncTask {
 
 
         for(float zahl: messwerte) {
-            //Log.d("runnable", /*"RohDaten " + (++i) + ": " + */""+zahl);
+            Log.d("runnable", /*"RohDaten " + (++i) + ": " + */""+zahl);
         }
 
         List<Float> messwerte_glat = messwerte;
-        int n = 11;
+        int n = 15;
         if(messwerte.size() > n) {
             messwerte_glat = moving_average(messwerte, n);
         }
 
         Log.d("runnable", "geglättet --------------------------------------> ");
         for(float zahl: messwerte_glat) {
-            //Log.d("runnable", /*"geglättet " + (++i) + ": " +*/ ""+zahl);
+            Log.d("runnable", /*"geglättet " + (++i) + ": " +*/ ""+zahl);
         }
 
 
