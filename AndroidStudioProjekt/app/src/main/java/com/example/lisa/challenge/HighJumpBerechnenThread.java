@@ -118,16 +118,20 @@ public class HighJumpBerechnenThread extends AsyncTask {
          */
         //speichereMesswerte(messwerte);
 
-        int i = 0;
+
         for(float zahl: messwerte) {
-            Log.d("runnable", /*"RohDaten " + (++i) + ": " + */""+zahl);
+            //Log.d("runnable", /*"RohDaten " + (++i) + ": " + */""+zahl);
         }
 
-        List<Float> messwerte_glat = moving_average(messwerte, 11);
-        i = 0;
+        List<Float> messwerte_glat = messwerte;
+        int n = 11;
+        if(messwerte.size() > n) {
+            messwerte_glat = moving_average(messwerte, n);
+        }
+
         Log.d("runnable", "geglättet --------------------------------------> ");
         for(float zahl: messwerte_glat) {
-            Log.d("runnable", /*"geglättet " + (++i) + ": " +*/ ""+zahl);
+            //Log.d("runnable", /*"geglättet " + (++i) + ": " +*/ ""+zahl);
         }
 
 
@@ -140,7 +144,7 @@ public class HighJumpBerechnenThread extends AsyncTask {
             //x = challangeAction.doppeltIntegration(messwerte);
             //---> x = challangeAction.doubleIntegrationLinearAccerlaration(messwerte);
             //x = challangeAction.wegMitDurschnittsberechnung(messwerte);
-            x = (float) challangeAction.simpsonrule_final(messwerte, dt);
+            x = (float) challangeAction.simpsonrule_final(messwerte_glat, dt);
             Log.d("runnable", "Die Geschwindigkeit beträgt " + x + "m/s");
             x = x * 100;
 

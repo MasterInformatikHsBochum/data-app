@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/textResultBroadjump"
         android:layout_width="337dp"
-        android:layout_height="82dp"
+        android:layout_height="103dp"
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -39,16 +39,16 @@
 
     <TextView
         android:id="@+id/highscoreBroadjump"
-        android:layout_width="204dp"
+        android:layout_width="161dp"
         android:layout_height="110dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="        Highscore \n   1. 0 Umdrehungen \n   2. 0 Umdrehungen \n   3. 0 Umdrehungen"
+        android:layout_marginTop="52dp"
+        android:text="      Highscore \n   1. 0 cm/s \n   2. 0 cm/s \n   3. 0 cm/s"
         android:textAlignment="viewStart"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCancelBroadjump"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textResultBroadjump" />
 
@@ -81,7 +81,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </android.support.constraint.ConstraintLayout>

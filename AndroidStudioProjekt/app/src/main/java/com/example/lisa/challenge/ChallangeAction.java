@@ -75,14 +75,17 @@ public class ChallangeAction {
         int indexStart = 0;
         for (int i = indexMax; messwerte.get(i)>= 0; i--) {
             indexStart = i;
+            if(i == 0) break;
         }
         Log.d("runnable", "indexStart: " + indexStart + " beschleunigung: " + messwerte.get(indexStart));
 
 
         /* Finde das Ende der postiven Halbwelle */
         int indexEnd = 0;
-        for (int i = indexMax; messwerte.get(i)>= 0; i++) {
-            indexEnd = i;
+        int j = indexMax;
+        while(j<messwerte.size() && messwerte.get(j)>=0) {
+            indexEnd = j;
+            j++;
         }
         Log.d("runnable", "indexEnde: " + indexEnd + " beschleunigung: " + messwerte.get(indexEnd));
 
